@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+AI/.vs/AI/v15/Browse.VC.db
+AI/.vs/AI/v15/.suo
+AI/.vs/AI/v15/ipch/AutoPCH/78d54ef3c5835d35/NEURON.ipch
+AI/.vs/AI/v15/ipch/AutoPCH/c52fe88f8d551b3/MAIN.ipch
+AI/.vs/AI/v15/Browse.VC.opendb

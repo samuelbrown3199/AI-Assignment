@@ -1,0 +1,9 @@
+﻿  Neuron.cpp
+c:\users\samue\desktop\games development\projects\ai-assignment\ai\neuron.cpp(57): warning C4305: 'initializing': truncation from 'double' to 'float'
+  main.cpp
+c:\users\samue\desktop\games development\projects\ai-assignment\ai\main.cpp(7): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\samue\desktop\games development\projects\ai-assignment\ai\main.cpp(13): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\samue\desktop\games development\projects\ai-assignment\ai\main.cpp(14): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\samue\desktop\games development\projects\ai-assignment\ai\main.cpp(15): warning C4305: 'argument': truncation from 'double' to 'float'
+  Generating Code...
+  AI.vcxproj -> C:\Users\samue\Desktop\Games Development\Projects\AI-Assignment\AI\Debug\AI.exe
