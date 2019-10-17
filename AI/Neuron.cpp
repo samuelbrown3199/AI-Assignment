@@ -23,8 +23,17 @@ void Neuron::CalculateOutput()
 void Neuron::AddInputSignal()
 {
 	InputSignal newSig;
-	newSig.index = signals.size();
 
+	newSig.index = signals.size();
+	signals.push_back(newSig);
+}
+
+void Neuron::AddInputSignal(float _val, float _wei)
+{
+	InputSignal newSig;
+	newSig.InitialiseValues( _val, _wei);
+
+	newSig.index = signals.size();
 	signals.push_back(newSig);
 }
 

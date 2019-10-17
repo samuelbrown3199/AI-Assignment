@@ -17,6 +17,14 @@ struct InputSignal
 	{
 		value = _val;
 		weight = _wei;
+	}	
+	void AdjustValue(float _val)
+	{
+		value = _val;
+	}
+	void AdjustWeight(float _wei)
+	{
+		weight = _wei;
 	}
 };
 
@@ -33,6 +41,7 @@ public:
 
 	void CalculateOutput();
 	void AddInputSignal();
+	void AddInputSignal(float _val, float _wei);
 
 	int StepFunction();
 	int SignFunction();
