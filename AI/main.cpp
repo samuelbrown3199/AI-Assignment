@@ -1,5 +1,7 @@
 #include <iostream>
+
 #include "Neuron.h"
+#include "Maze.h"
 
 int main()
 {
@@ -14,6 +16,10 @@ int main()
 
 	std::cout << test.xValue << std::endl;
 	std::cout << test.SigmoidFunction() << std::endl;
+
+
+	Maze maze;
+	maze.OpenFile("TestMazeA.txt");
 
 	return 0;
 }
