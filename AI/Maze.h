@@ -11,18 +11,23 @@ class Maze
 {
 private:
 
-	std::string directory = "Mazes/";
+	const std::string directory = "Mazes/";
 	std::stringstream buffer;
 
+	int numberCount = 0;
 	std::string mazeData;
-	std::string* mazeSplitData;
+	int* tempArray = nullptr;
+	
+	int col, row;
+	int** mazeArray;
 
 public:
-	Maze();
+	Maze(std::string fileName);
 	~Maze();
 
 	void OpenFile(std::string fileName);
 	void SplitString(int numCount);
+	void OrganiseData();
 };
 
 #endif // !MAZE_H_

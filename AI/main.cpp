@@ -18,8 +18,7 @@ int main()
 	std::cout << test.SigmoidFunction() << std::endl;
 
 
-	Maze maze;
-	maze.OpenFile("TestMazeA.txt");
+	Maze maze("TestMazeA.txt");
 
 	return 0;
 }
