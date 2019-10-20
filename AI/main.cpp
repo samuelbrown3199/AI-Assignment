@@ -1,24 +1,15 @@
 #include <iostream>
 
-#include "Neuron.h"
-#include "Maze.h"
+#include "Application.h"
+
+#undef main
 
 int main()
 {
-	Neuron test;
-	test.threshold = -0.7;
+	const int winX = 1366, winY = 768, xPos = 25, yPos = 25;
+	Application app;
+	app.InitialiseApplication("AI", xPos, yPos, winX, winY, SDL_WINDOW_SHOWN);
 
-	test.AddInputSignal(0.1, 0.7);
-	test.AddInputSignal(0.5, 0.2);
-	test.AddInputSignal(0.8, 0.6);
-
-	test.CalculateOutput();
-
-	std::cout << test.xValue << std::endl;
-	std::cout << test.SigmoidFunction() << std::endl;
-
-
-	Maze maze("TestMazeA.txt");
-
+	app.CleanUp();
 	return 0;
 }

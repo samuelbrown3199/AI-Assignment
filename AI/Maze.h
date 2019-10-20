@@ -7,6 +7,14 @@
 #include <sstream>
 #include <fstream>
 
+#include <SDL.h>
+
+struct MazeTile
+{
+	int xPos, yPos;
+	int tileType;
+};
+
 class Maze
 {
 private:
@@ -21,6 +29,8 @@ private:
 	int col, row;
 	int** mazeArray;
 
+	MazeTile** mazeTileArray;
+
 public:
 	Maze(std::string fileName);
 	~Maze();
@@ -28,6 +38,9 @@ public:
 	void OpenFile(std::string fileName);
 	void SplitString(int numCount);
 	void OrganiseData();
+
+	void SetupRenderMaze();
+	void RenderMaze(SDL_Renderer* _renderer);
 };
 
 #endif // !MAZE_H_
