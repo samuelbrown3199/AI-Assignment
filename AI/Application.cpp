@@ -48,6 +48,8 @@ void Application::CleanUp()
 
 void Application::ApplicationLoop()
 {
+	CreateMaze();
+
 	while (loop)
 	{
 		RenderApplication();
@@ -70,20 +72,24 @@ void Application::CheckForPlayerGenInput()
 
 	while (SDL_PollEvent(&event))
 	{
-		if (event.type == SDL_QUIT)
+		switch (event.type)
 		{
+		case SDL_QUIT:
 			loop = false;
-		}
-		else if (event.type == SDL_KEYDOWN)
-		{
-			if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_m)
+			break;
+		/*case SDL_KEYDOWN:
+			if (event.key.keysym.sym == SDLK_m)
 			{
 				CreateMaze();
+				break;
 			}
-			else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_n)
+			else if(event.key.keysym.sym == SDLK_n)
 			{
 				DeleteMaze();
-			}
+				break;
+			}*/
+		default:
+			break;
 		}
 	}
 }

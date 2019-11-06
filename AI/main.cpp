@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "Application.h"
+#include "Maze.h"
 
 #undef main
 

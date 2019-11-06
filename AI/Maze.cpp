@@ -35,6 +35,8 @@ void Maze::OpenFile(std::string fileName) //function used to find the maze files
 			numberCount++; //get a count for the amount of numbers in the maze data. used for later dynamically allocating an int array
 		}
 
+		std::cout << "Maze data: " << buffer.str() << std::endl;
+
 		myFile.close(); //close the file
 		SplitString(numberCount); //call the split string function
 	}
@@ -52,30 +54,42 @@ void Maze::SplitString(int numCount) //function to sort the data into a 1D int a
 
 	tempArray = new int[numCount] {0}; //initialises 1D array to use for later
 
+	std::cout << "Temp Array Data: ";
 	while (data.good() && i < numCount)
 	{
 		data >> tempArray[i]; //gets the data from the stream and puts into the array at index I
+		std::cout << tempArray[i];
 		i++;
 	}
+	std::cout << std::endl;
 
 	col = tempArray[0]; //gets the first two numbers, used for determining the amount of rows and columns in the maze
 	row = tempArray[1];
 
-	for (int i = 0; i < numberCount; i++)
+
+	std::cout << "Temp Array Data: ";
+	for (int i = 0; i < numberCount - 2; i++)
 	{
 		tempArray[i] = tempArray[i + 2]; //overwrites the array without the needed first 2 numbers
+		std::cout << tempArray[i];
 	}
+	std::cout << std::endl;
 
 	OrganiseData();
 }
 
 void Maze::OrganiseData() //function to sort 1D array into a 2D array
 {
+	std::cout << "Should create maze with " << col << " columns and " << row << " rows" << std::endl;
+
+	std::cout << "Clean Array Data: ";
 	int* cleanArray = new int[numberCount - 2];
 	for (int i = 0; i < numberCount - 2; i++)
 	{
 		cleanArray[i] = tempArray[i]; //gets rid of the first two numbers of the temp array. the first two numbers are not needed for the 2d maze array later.
+		std::cout << cleanArray[i];
 	}
+	std::cout << std::endl;
 	delete tempArray;
 
 	mazeArray = new int*[col];
@@ -109,8 +123,8 @@ void Maze::SetupRenderMaze()
 		for (int x = 0; x < col; x++)
 		{
 			mazeTileArray[y][x].tileType = mazeArray[y][x];
-			mazeTileArray[y][x].xPos = 50 + (x * 50);
-			mazeTileArray[y][x].yPos = 50 + (y * 50);
+			mazeTileArray[y][x].xPos = 0 + (x * 50);
+			mazeTileArray[y][x].yPos = 0 + (y * 50);
 		}
 	}
 }
