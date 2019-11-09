@@ -9,11 +9,16 @@
 
 int main()
 {
-	Neuron test;							//temp Code start
+	//temp Code start
+
+	Neuron test;							
 	test.threshold = 0.2f;
+	test.alpha = 0.1f;
+
 	test.type = Neuron::NeuronType::step;
 	test.AddInputSignal();
 	test.AddInputSignal();
+
 	test.signals[0].InitialiseValues(0, 0.3f);
 	test.signals[1].InitialiseValues(0, -0.1f);
 
@@ -33,11 +38,9 @@ int main()
 	test.dataTemp[3].x2 = 1;
 	test.dataTemp[3].yd = 1;
 
-	for (int i = 0; i < 5; i++)
-	{
-		test.TrainWeights();
-	}										//temp code end
+	test.TrainWeights();	
 
+	//temp code end
 
 
 

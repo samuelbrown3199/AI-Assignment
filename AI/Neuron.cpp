@@ -87,8 +87,10 @@ void Neuron::AdjustSignalAtIndex(int i, float val)
 
 void Neuron::TrainWeights() //not quite working, refer to lab 4 on brightspace
 {
-	for (int i = 0; i < 4; i++)
+	for (int p = 0; p < 20; p++)
 	{
+		int i = p % 4;
+
 		AdjustSignalAtIndex(0, dataTemp[i].x1);
 		AdjustSignalAtIndex(0, dataTemp[i].x2);
 
@@ -113,10 +115,9 @@ void Neuron::TrainWeights() //not quite working, refer to lab 4 on brightspace
 		}
 
 		float error = dataTemp[i].yd - yValue;
-		signals[0].AdjustWeight(signals[0].weight + alpha * (dataTemp[i].x1*error));
-		signals[1].AdjustWeight(signals[1].weight + alpha * (dataTemp[i].x2*error));
+		signals[0].AdjustWeight((signals[0].weight + alpha) * (dataTemp[i].x1*error));
+		signals[1].AdjustWeight((signals[1].weight + alpha) * (dataTemp[i].x2*error));
 
-		std::cout << "Adjusting weights by " << signals[0].weight + alpha * (dataTemp[i].x1*error) << " and " << signals[1].weight + alpha * (dataTemp[i].x2*error) << std::endl;
 		std::cout << "Weights are " << signals[0].weight << " and  " << signals[1].weight << std::endl;
 	}
 }
