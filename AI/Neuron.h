@@ -28,18 +28,39 @@ struct InputSignal
 	}
 };
 
+struct TrainingData
+{
+	float x1, x2, yd;
+};
+
 class Neuron
 {
+private:
+
+
 public:
 
+	enum NeuronType
+	{
+		step,
+		sign,
+		sigmoid,
+		linear
+	};
+
 	float xValue;
+	float yValue;
 	float threshold;
+	float alpha = 0.1f;
+
 	std::vector<InputSignal> signals;
+	NeuronType type;
+	TrainingData dataTemp[4];
 
 	Neuron();
 	~Neuron();
 
-	void CalculateOutput();
+	void CalculateXValue();
 	void AddInputSignal();
 	void AddInputSignal(float _val, float _wei);
 
@@ -48,7 +69,8 @@ public:
 	float SigmoidFunction();
 	float LinearFunction();
 
-	void AdjustSignalAtIndex(int i, float val, float wei);
+	void AdjustSignalAtIndex(int i, float val);
+	void TrainWeights();
 };
 
 #endif

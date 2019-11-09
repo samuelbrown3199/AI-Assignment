@@ -1,2 +1,5 @@
-﻿  Maze.cpp
+﻿  Neuron.cpp
+c:\users\samue\desktop\games development\projects\ai-assignment\ai\neuron.cpp(66): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\samue\desktop\games development\projects\ai-assignment\ai\neuron.cpp(100): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\samue\desktop\games development\projects\ai-assignment\ai\neuron.cpp(103): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   AI.vcxproj -> C:\Users\samue\Desktop\Games Development\Projects\AI-Assignment\AI\Debug\AI.exe
