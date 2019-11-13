@@ -71,6 +71,8 @@ public:
 
 	void AdjustSignalAtIndex(int i, float val);
 	void TrainWeights();
+
+	void TrainingAlgorithmTemp();
 };
 
 #endif

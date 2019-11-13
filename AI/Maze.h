@@ -7,6 +7,7 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
+#include <math.h>
 
 #include <SDL.h>
 
@@ -14,6 +15,14 @@ struct MazeTile
 {
 	int xPos, yPos;
 	int tileType;
+};
+
+struct Node
+{
+	bool passable = false;
+	int xPos, yPos;
+	float distanceToEnd;
+	float distanceFromCurPos;
 };
 
 class Maze
@@ -33,6 +42,9 @@ private:
 	MazeTile** mazeTileArray;
 
 public:
+
+	Node** nodeArray;
+
 	Maze(std::string fileName);
 	~Maze();
 
@@ -42,6 +54,8 @@ public:
 
 	void SetupRenderMaze();
 	void RenderMaze(SDL_Renderer* _renderer);
+
+	void SetupNodeDistances();
 };
 
 #endif // !MAZE_H_

@@ -121,3 +121,28 @@ void Neuron::TrainWeights() //not quite working, refer to lab 4 on brightspace
 		std::cout << "Weights are " << signals[0].weight << " and  " << signals[1].weight << std::endl;
 	}
 }
+
+void Neuron::TrainingAlgorithmTemp()
+{
+	signals[0].weight = 0.3;
+	signals[1].weight = -0.1;
+	alpha = 0.1;
+
+	int iter = 20;
+	for (int p = 0; p < iter; p++)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			signals[0].value = dataTemp[i].x1;
+			signals[1].value = dataTemp[i].x2;
+			CalculateXValue();
+			yValue = StepFunction();
+
+			float error = dataTemp[i].yd - yValue;
+			signals[0].weight += alpha * (signals[0].value*error);
+			signals[1].weight += alpha * (signals[1].value*error);
+
+			std::cout << signals[0].weight << "    " << signals[1].weight << std::endl;
+		}
+	}
+}

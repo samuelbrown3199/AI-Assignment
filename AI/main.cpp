@@ -38,7 +38,7 @@ int main()
 	test.dataTemp[3].x2 = 1;
 	test.dataTemp[3].yd = 1;
 
-	test.TrainWeights();	
+	//test.TrainingAlgorithmTemp();
 
 	//temp code end
 

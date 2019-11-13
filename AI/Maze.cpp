@@ -113,27 +113,38 @@ void Maze::OrganiseData() //function to sort 1D array into a 2D array
 void Maze::SetupRenderMaze()
 {
 	mazeTileArray = new MazeTile*[col];
+	nodeArray = new Node*[col];
 	for (int i = 0; i < col; i++)
 	{
 		mazeTileArray[i] = new MazeTile[row]; //initialises the 2d maze array with the right amount of columns and rows.
+		nodeArray[i] = new Node[row];
 	}
 
-	for (int y = 0; y < row; y++)
+	for (int y = 0; y < row; y++)			//loops through tiles and sets up their positions and nodes for a*
 	{
 		for (int x = 0; x < col; x++)
 		{
 			mazeTileArray[y][x].tileType = mazeArray[y][x];
 			mazeTileArray[y][x].xPos = 0 + (x * 50);
 			mazeTileArray[y][x].yPos = 0 + (y * 50);
+
+			if (mazeTileArray[y][x].tileType != 1)
+			{
+				nodeArray[y][x].passable = true;
+				nodeArray[y][x].xPos = mazeTileArray[y][x].xPos;
+				nodeArray[y][x].yPos = mazeTileArray[y][x].yPos;
+			}
 		}
 	}
+
+	SetupNodeDistances();
 }
 
-void Maze::RenderMaze(SDL_Renderer* _renderer)
+void Maze::RenderMaze(SDL_Renderer* _renderer) //Used to render the maze to screen
 {	
-	if (mazeTileArray != nullptr)
+	if (mazeTileArray != nullptr) //checks that there are maze tiles setup
 	{
-		for (int y = 0; y < row; y++)
+		for (int y = 0; y < row; y++)	//loops through tiles
 		{
 			for (int x = 0; x < col; x++)
 			{
@@ -141,7 +152,7 @@ void Maze::RenderMaze(SDL_Renderer* _renderer)
 				tempRect.x = mazeTileArray[y][x].xPos;
 				tempRect.y = mazeTileArray[y][x].yPos;
 				tempRect.w = 50;
-				tempRect.h = 50;
+				tempRect.h = 50;							//sets up the rect size for tiles
 
 				switch (mazeTileArray[y][x].tileType)
 				{
@@ -157,10 +168,52 @@ void Maze::RenderMaze(SDL_Renderer* _renderer)
 				case 3:
 					SDL_SetRenderDrawColor(_renderer, 0, 0, 255, 255);
 					break;
-				}
+				}															//colours the tiles based on the type they are
 
-				SDL_RenderFillRect(_renderer, &tempRect);
+				SDL_RenderFillRect(_renderer, &tempRect);					//renders the tile
 			}
 		}
+	}
+}
+
+void Maze::SetupNodeDistances()
+{
+	MazeTile* endTile = nullptr;
+
+	for (int y = 0; y < row; y++)
+	{
+		for (int x = 0; x < col; x++)
+		{
+			if (mazeTileArray[y][x].tileType == 3)
+			{
+				endTile = &mazeTileArray[y][x];
+				nodeArray[y][x].distanceToEnd = 0;
+
+				std::cout << "End tile is " << x << " " << y << std::endl;
+
+				break;
+			}
+		}
+	}
+
+	if (endTile != nullptr)
+	{
+		for (int y = 0; y < row; y++)
+		{
+			for (int x = 0; x < col; x++)
+			{
+				if (nodeArray[y][x].passable && mazeTileArray[y][x].tileType != 3)
+				{
+					float distance = sqrt(((nodeArray[y][x].xPos - endTile->xPos)*(nodeArray[y][x].xPos - endTile->xPos)) + ((nodeArray[y][x].yPos - endTile->yPos)*(nodeArray[y][x].yPos - endTile->yPos)));
+					nodeArray[y][x].distanceToEnd = distance;
+
+					std::cout << "Distance from node " << x << " " << y << " is " << nodeArray[y][x].distanceToEnd << std::endl;
+				}
+			}
+		}
+	}
+	else
+	{
+		std::cout << "End tile is null, Maze is not compatible" << std::endl;
 	}
 }
