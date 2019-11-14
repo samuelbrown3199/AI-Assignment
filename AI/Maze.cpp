@@ -163,10 +163,10 @@ void Maze::RenderMaze(SDL_Renderer* _renderer) //Used to render the maze to scre
 					SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
 					break;
 				case 2:
-					SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
+					SDL_SetRenderDrawColor(_renderer, 0, 0, 255, 255);
 					break;
 				case 3:
-					SDL_SetRenderDrawColor(_renderer, 0, 0, 255, 255);
+					SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
 					break;
 				}															//colours the tiles based on the type they are
 
