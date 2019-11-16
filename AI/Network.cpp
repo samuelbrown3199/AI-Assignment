@@ -102,7 +102,7 @@ void Network::TrainingAlgorithm()
 	}
 }
 
-void Network::HardCode()
+void Network::HardCode() //still doesnt quite work, needs to be looked into
 {
 	int nIter = 10000;
 	int curItr = 1;
@@ -187,7 +187,6 @@ void Network::HardCode()
 		}
 
 		epocSumError = epocSumError + (te*te);
-
 		if (epocSumError < 0.001)
 		{
 			std::cout << "Trained" << std::endl;
