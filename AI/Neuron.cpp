@@ -2,8 +2,11 @@
 
 
 
-Neuron::Neuron()
+Neuron::Neuron(int _index, float _alpha, float _threshold)
 {
+	neuronIndex = _index;
+	alpha = _alpha;
+	threshold = _threshold;
 }
 
 
@@ -11,65 +14,39 @@ Neuron::~Neuron()
 {
 }
 
-void Neuron::CalculateXValue()
+void Neuron::CalculateOutput()
+{
+	GetSignalCount();
+
+	if (signalCount > 1)
+	{
+		std::vector<InputSignal>::iterator sItr;
+		for (sItr = signals.begin(); sItr != signals.end(); sItr++)
+		{
+			xValue += (*sItr).value*(*sItr).weight;
+		}
+
+		yValue = SigmoidFunction(2.71828);
+	}
+}
+
+void Neuron::AddInputSignal(float _weight)
+{
+	InputSignal newSig;
+	newSig.index = signals.size();
+	newSig.weight = _weight;
+
+	signals.push_back(newSig);
+}
+
+void Neuron::AddPreviousNeuron(int input, Neuron* prevNeur)
 {
 	std::vector<InputSignal>::iterator sItr;
 	for (sItr = signals.begin(); sItr != signals.end(); sItr++)
 	{
-		xValue += (*sItr).value*(*sItr).weight;
+		(*sItr).previousNeuron = prevNeur;
+		(*sItr).value = prevNeur->yValue;
 	}
-}
-
-void Neuron::AddInputSignal()
-{
-	InputSignal newSig;
-
-	newSig.index = signals.size();
-	signals.push_back(newSig);
-}
-
-void Neuron::AddInputSignal(float _val, float _wei)
-{
-	InputSignal newSig;
-	newSig.InitialiseValues( _val, _wei);
-
-	newSig.index = signals.size();
-	signals.push_back(newSig);
-}
-
-int Neuron::StepFunction()
-{
-	if (xValue >= threshold)
-	{
-		return 1;
-	}
-	else
-	{
-		return 0;
-	}
-}
-
-int Neuron::SignFunction()
-{
-	if (xValue >= threshold)
-	{
-		return 1;
-	}
-	else
-	{
-		return -1;
-	}
-}
-
-float Neuron::SigmoidFunction()
-{
-	float e = 2.71828;
-	return 1 / (1 + pow(e, -(xValue - threshold)));
-}
-
-float Neuron::LinearFunction()
-{
-	return xValue - threshold;
 }
 
 void Neuron::AdjustSignalAtIndex(int i, float val)
@@ -85,44 +62,76 @@ void Neuron::AdjustSignalAtIndex(int i, float val)
 	}
 }
 
-void Neuron::TrainWeights() //not quite working, refer to lab 4 on brightspace
+void Neuron::AdjustSignalWeightAtIndex(int i, float val)
 {
-	for (int p = 0; p < 20; p++)
+	std::vector<InputSignal>::iterator sItr;
+	for (sItr = signals.begin(); sItr != signals.end(); sItr++)
 	{
-		int i = p % 4;
-
-		AdjustSignalAtIndex(0, dataTemp[i].x1);
-		AdjustSignalAtIndex(0, dataTemp[i].x2);
-
-		CalculateXValue();
-
-		switch (type)
+		if ((*sItr).index == i)
 		{
-		case step:
-			yValue = StepFunction();
+			(*sItr).weight = val;
 			break;
-		case sign:
-			yValue = SignFunction();
-			break;
-		case sigmoid:
-			yValue = SigmoidFunction();
-			break;
-		case linear:
-			yValue = LinearFunction();
-			break;
-		default:
-			std::cout << "Type of neuron not defined, this neuron wont work" << std::endl;
 		}
-
-		float error = dataTemp[i].yd - yValue;
-		signals[0].AdjustWeight((signals[0].weight + alpha) * (dataTemp[i].x1*error));
-		signals[1].AdjustWeight((signals[1].weight + alpha) * (dataTemp[i].x2*error));
-
-		std::cout << "Weights are " << signals[0].weight << " and  " << signals[1].weight << std::endl;
 	}
 }
 
-void Neuron::TrainingAlgorithmTemp()
+float Neuron::GetSignalWeight(int i)
+{
+	std::vector<InputSignal>::iterator sItr;
+	for (sItr = signals.begin(); sItr != signals.end(); sItr++)
+	{
+		if ((*sItr).index == i)
+		{
+			return (*sItr).weight;
+			break;
+		}
+	}
+}
+
+void Neuron::GetSignalCount()
+{
+	std::vector<InputSignal>::iterator sItr;
+	for (sItr = signals.begin(); sItr != signals.end(); sItr++)
+	{
+		signalCount++;
+	}
+}
+
+int Neuron::SignFunction()
+{
+	if (xValue >= threshold)
+	{
+		return 1;
+	}
+	else
+	{
+		return -1;
+	}
+}
+
+int Neuron::StepFunction()
+{
+	if (xValue >= threshold)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+float Neuron::SigmoidFunction(float e)
+{
+	return 1 / (1 + pow(e, -(xValue - threshold)));
+}
+
+float Neuron::LinearFunction()
+{
+	return xValue - threshold;
+}
+
+void Neuron::TrainingAlgorithm()
 {
 	signals[0].weight = 0.3;
 	signals[1].weight = -0.1;
@@ -133,12 +142,12 @@ void Neuron::TrainingAlgorithmTemp()
 	{
 		for (int i = 0; i < 4; i++)
 		{
-			signals[0].value = dataTemp[i].x1;
-			signals[1].value = dataTemp[i].x2;
-			CalculateXValue();
-			yValue = StepFunction();
+			signals[0].value = data[i]->input[0];
+			signals[1].value = data[i]->input[1];
+			CalculateOutput();
+			yValue = SigmoidFunction(2.71828);
 
-			float error = dataTemp[i].yd - yValue;
+			float error = data[i]->desiredY - yValue;
 			signals[0].weight += alpha * (signals[0].value*error);
 			signals[1].weight += alpha * (signals[1].value*error);
 

@@ -3,24 +3,28 @@
 #define NEURON_H_
 
 #include <iostream>
-#include <math.h>
 #include <vector>
+#include <math.h>
+
+class Neuron;
 
 struct InputSignal
 {
+	int index;
 	float value;
 	float weight;
 
-	int index;
-	
+	Neuron* previousNeuron = nullptr;
+
 	void InitialiseValues(float _val, float _wei)
 	{
 		value = _val;
 		weight = _wei;
-	}	
+	}
 	void AdjustValue(float _val)
 	{
 		value = _val;
+		std::cout << value << std::endl;
 	}
 	void AdjustWeight(float _wei)
 	{
@@ -30,50 +34,53 @@ struct InputSignal
 
 struct TrainingData
 {
-	float x1, x2, yd;
+	float input[2];
+	float desiredY;
+
+	TrainingData(float x1, float x2, float _desiredY)
+	{
+		input[0] = x1;
+		input[1] = x2;
+
+		desiredY = _desiredY;
+	}
 };
 
 class Neuron
 {
-private:
-
-
 public:
 
-	enum NeuronType
-	{
-		step,
-		sign,
-		sigmoid,
-		linear
-	};
+	int neuronIndex;
+	int signalCount = 0;
 
+	std::vector<InputSignal> signals;
 	float xValue;
 	float yValue;
 	float threshold;
 	float alpha = 0.1f;
 
-	std::vector<InputSignal> signals;
-	NeuronType type;
-	TrainingData dataTemp[4];
+	float delta = 0;
+	float error = 0;
 
-	Neuron();
+	TrainingData* data[4]{ nullptr };
+
+	Neuron(int _index, float _alpha, float _threshold);
 	~Neuron();
 
-	void CalculateXValue();
-	void AddInputSignal();
-	void AddInputSignal(float _val, float _wei);
+	void CalculateOutput();
+	void AddInputSignal(float _weight);
+	void AddPreviousNeuron(int input, Neuron* prevNeur);
+	void AdjustSignalAtIndex(int i, float val);
+	void AdjustSignalWeightAtIndex(int i, float val);
+	float GetSignalWeight(int i);
+	void GetSignalCount();
 
-	int StepFunction();
 	int SignFunction();
-	float SigmoidFunction();
+	int StepFunction();
+	float SigmoidFunction(float e);
 	float LinearFunction();
 
-	void AdjustSignalAtIndex(int i, float val);
-	void TrainWeights();
-
-	void TrainingAlgorithmTemp();
+	void TrainingAlgorithm();
 };
 
-#endif
-
+#endif // !NEURON_H_
