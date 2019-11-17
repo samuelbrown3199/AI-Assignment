@@ -102,7 +102,7 @@ void Network::TrainingAlgorithm()
 	}
 }
 
-void Network::HardCode() //still doesnt quite work, needs to be looked into
+void Network::HardCode() //still doesnt quite work, needs to be looked into, i believe its a bodmas error but not entirely certain as example algorithm has exp(1) in sigmoid functions
 {
 	int nIter = 10000;
 	int curItr = 1;
@@ -144,14 +144,28 @@ void Network::HardCode() //still doesnt quite work, needs to be looked into
 
 		for (int i = 0; i < 4; i++)
 		{
+
+			tx[3] = (data[i]->input[0] * w[1][3]) + (data[i]->input[1] * w[2][3]);
+			ty[3] = 1 / (1 + (pow(2.71828, -(tx[3] - theta[3]))));
+			tx[4] = (data[i]->input[0] * w[1][4]) + (data[i]->input[1] * w[2][4]);
+			ty[4] = 1 / (1 + (pow(2.71828, -(tx[4] - theta[4]))));
+			tx[5] = (ty[3] * w[3][5]) + (ty[4] * w[4][5]);
+			ty[5] = 1 / (1 + (pow(2.71828, -(tx[5] - theta[5]))));
+			te = data[i]->desiredY - ty[5];
+
+			std::cout << "Data " << i << " y3 " << ty[3] << std::endl;
+			std::cout << "Data " << i << " y4 " << ty[4] << std::endl;
+			std::cout << "Data " << i << " y5 " << ty[5] << std::endl;
+
+
 			xVal[3] = (data[i]->input[0] * w[1][3]) + (data[i]->input[2]*w[2][3]);
-			yVal[3] = 1 / (1 + pow(2.71828, -(xVal[3] - theta[3])));
+			yVal[3] = 1 / (1 + (pow(2.71828, -(xVal[3] - theta[3]))));
 
 			xVal[4] = (data[i]->input[0] * w[1][4]) + (data[i]->input[2] * w[2][4]);
-			yVal[4] = 1/(1 + pow(2.71828, -(xVal[4] - theta[4])));
+			yVal[4] = 1/(1 + (pow(2.71828, -(xVal[4] - theta[4]))));
 
 			xVal[5] = (yVal[3] * w[3][5]) + (yVal[4] * w[4][5]);
-			yVal[5] = 1 / (1 + pow(2.71828, -(xVal[4] - theta[5])));
+			yVal[5] = 1 / (1 + (pow(2.71828, -(xVal[4] - theta[5]))));
 
 			e[5] = data[i]->desiredY - yVal[5];
 			delta[5] = yVal[5] * (1 - yVal[5])*e[5];
@@ -174,16 +188,20 @@ void Network::HardCode() //still doesnt quite work, needs to be looked into
 			theta[4] = theta[4] + alpha * (-1)*delta[4];
 
 			tx[3] = (data[i]->input[0] * w[1][3]) + (data[i]->input[1] * w[2][3]);
-			ty[3] = 1 / (1 + pow(2.71828, -(tx[3] - theta[3])));
+			ty[3] = 1 / (1 + (pow(2.71828, -(tx[3] - theta[3]))));
 			tx[4] = (data[i]->input[0] * w[1][4]) + (data[i]->input[1] * w[2][4]);
-			ty[4] = 1 / (1 + pow(2.71828, -(tx[4] - theta[4])));
+			ty[4] = 1 / (1 + (pow(2.71828, -(tx[4] - theta[4]))));
 			tx[5] = (ty[3] * w[3][5]) + (ty[4] * w[4][5]);
-			ty[5] = 1 / (1 + pow(2.71828, -(tx[5] - theta[5])));
+			ty[5] = 1 / (1 + (pow(2.71828, -(tx[5] - theta[5]))));
 			te = data[i]->desiredY - ty[5];
 
-			std::cout << "y3 " << yVal[3] << std::endl;
-			std::cout << "y4 " << yVal[4] << std::endl;
-			std::cout << "y5 " << yVal[5] << std::endl;
+			std::cout << "Data " << i << " y3 " << ty[3] << std::endl;
+			std::cout <<"Data " << i << " y4 " << ty[4] << std::endl;
+			std::cout << "Data " << i << " y5 " << ty[5] << std::endl;
+
+			std::cout << "Test: " << 1 / (1 + (pow(2.71828, -(((data[i]->input[0]*0.5) + (data[i]->input[1]*0.4) - (1*0.8)))))) << std::endl;
+
+			curItr++;
 		}
 
 		epocSumError = epocSumError + (te*te);
@@ -192,7 +210,5 @@ void Network::HardCode() //still doesnt quite work, needs to be looked into
 			std::cout << "Trained" << std::endl;
 			break;
 		}
-
-		curItr++;
 	}
 }

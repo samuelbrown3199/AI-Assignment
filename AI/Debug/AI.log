@@ -1,18 +1,5 @@
-﻿  Network.cpp
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\network.cpp(7): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\network.cpp(10): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\network.cpp(13): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\network.cpp(16): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\network.cpp(19): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\network.cpp(20): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\network.cpp(25): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\network.cpp(26): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\network.cpp(28): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\network.cpp(94): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\network.cpp(148): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\network.cpp(151): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\network.cpp(154): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\network.cpp(177): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\network.cpp(179): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\network.cpp(181): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+﻿Neuron.obj : warning LNK4204: 'C:\Users\samue\Desktop\Games Development\Projects\AI-Assignment\AI\Debug\vc141.pdb' is missing debugging information for referencing module; linking object as if no debug info
+Maze.obj : warning LNK4204: 'C:\Users\samue\Desktop\Games Development\Projects\AI-Assignment\AI\Debug\vc141.pdb' is missing debugging information for referencing module; linking object as if no debug info
+main.obj : warning LNK4204: 'C:\Users\samue\Desktop\Games Development\Projects\AI-Assignment\AI\Debug\vc141.pdb' is missing debugging information for referencing module; linking object as if no debug info
+Application.obj : warning LNK4204: 'C:\Users\samue\Desktop\Games Development\Projects\AI-Assignment\AI\Debug\vc141.pdb' is missing debugging information for referencing module; linking object as if no debug info
   AI.vcxproj -> C:\Users\samue\Desktop\Games Development\Projects\AI-Assignment\AI\Debug\AI.exe
