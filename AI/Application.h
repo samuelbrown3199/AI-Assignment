@@ -6,6 +6,7 @@
 #include <SDL.h>
 
 #include "Maze.h"
+#include "AStar.h"
 
 class Application
 {

@@ -1,5 +1,4 @@
-﻿Neuron.obj : warning LNK4204: 'C:\Users\samue\Desktop\Games Development\Projects\AI-Assignment\AI\Debug\vc141.pdb' is missing debugging information for referencing module; linking object as if no debug info
-Maze.obj : warning LNK4204: 'C:\Users\samue\Desktop\Games Development\Projects\AI-Assignment\AI\Debug\vc141.pdb' is missing debugging information for referencing module; linking object as if no debug info
-main.obj : warning LNK4204: 'C:\Users\samue\Desktop\Games Development\Projects\AI-Assignment\AI\Debug\vc141.pdb' is missing debugging information for referencing module; linking object as if no debug info
-Application.obj : warning LNK4204: 'C:\Users\samue\Desktop\Games Development\Projects\AI-Assignment\AI\Debug\vc141.pdb' is missing debugging information for referencing module; linking object as if no debug info
+﻿  AStar.cpp
+c:\users\samue\desktop\games development\projects\ai-assignment\ai\maze.h(59): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\samue\desktop\games development\projects\ai-assignment\ai\maze.h(63): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   AI.vcxproj -> C:\Users\samue\Desktop\Games Development\Projects\AI-Assignment\AI\Debug\AI.exe

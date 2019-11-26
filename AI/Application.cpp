@@ -53,7 +53,7 @@ void Application::ApplicationLoop()
 	while (loop)
 	{
 		RenderApplication();
-		CheckForPlayerGenInput();
+		//CheckForPlayerGenInput();
 	}
 }
 
@@ -117,6 +117,7 @@ void Application::CreateMaze()
 		std::cin >> fileName;
 
 		currentMaze = new Maze(fileName);
+		AStar* ai = new AStar(currentMaze);
 	}
 	else
 	{

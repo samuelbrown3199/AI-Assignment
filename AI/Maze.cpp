@@ -163,7 +163,7 @@ void Maze::RenderMaze(SDL_Renderer* _renderer) //Used to render the maze to scre
 					SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
 					break;
 				case 2:
-					SDL_SetRenderDrawColor(_renderer, 0, 0, 255, 255);
+					SDL_SetRenderDrawColor(_renderer, 0, 255, 0, 255);
 					break;
 				case 3:
 					SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
@@ -178,42 +178,48 @@ void Maze::RenderMaze(SDL_Renderer* _renderer) //Used to render the maze to scre
 
 void Maze::SetupNodeDistances()
 {
-	MazeTile* endTile = nullptr;
-
 	for (int y = 0; y < row; y++)
 	{
 		for (int x = 0; x < col; x++)
 		{
-			if (mazeTileArray[y][x].tileType == 3)
+			if (nodeArray[y][x].passable)
 			{
-				endTile = &mazeTileArray[y][x];
-				nodeArray[y][x].distanceToEnd = 0;
+				nodeArray[y][x].x = x;
+				nodeArray[y][x].y = y;
 
-				std::cout << "End tile is " << x << " " << y << std::endl;
-
-				break;
+				nodeArray[y][x].nodeType = mazeTileArray[y][x].tileType;
+				nodeArray[y][x].SetupSuccessors(nodeArray, col, row);
+				if (nodeArray[y][x].nodeType == 2)
+				{
+					startNode = &nodeArray[y][x];
+					nodeArray[y][x].f = 1000000000;
+				}
+				if (nodeArray[y][x].nodeType == 3)
+				{
+					endNode = &nodeArray[y][x];
+				}
 			}
 		}
 	}
 
-	if (endTile != nullptr)
+	if (endNode != nullptr)
 	{
 		for (int y = 0; y < row; y++)
 		{
 			for (int x = 0; x < col; x++)
 			{
-				if (nodeArray[y][x].passable && mazeTileArray[y][x].tileType != 3)
+				if (nodeArray[y][x].passable)
 				{
-					float distance = sqrt(((nodeArray[y][x].xPos - endTile->xPos)*(nodeArray[y][x].xPos - endTile->xPos)) + ((nodeArray[y][x].yPos - endTile->yPos)*(nodeArray[y][x].yPos - endTile->yPos)));
-					nodeArray[y][x].distanceToEnd = distance;
+					float distance = sqrt(((nodeArray[y][x].xPos - endNode->xPos)*(nodeArray[y][x].xPos - endNode->xPos)) + ((nodeArray[y][x].yPos - endNode->yPos)*(nodeArray[y][x].yPos - endNode->yPos)));
+					nodeArray[y][x].h = distance;
 
-					std::cout << "Distance from node " << x << " " << y << " is " << nodeArray[y][x].distanceToEnd << std::endl;
+					std::cout << "Distance from node " << x << " " << y << " is " << nodeArray[y][x].h << std::endl;
 				}
 			}
 		}
 	}
 	else
 	{
-		std::cout << "End tile is null, Maze is not compatible" << std::endl;
+		std::cout << "Maze not compatible as the maze end does not exist." << std::endl;
 	}
 }
