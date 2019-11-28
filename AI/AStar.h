@@ -15,7 +15,7 @@ private:
 
 	Maze* maze;
 
-	std::vector<Node*> openList;
+	std::vector<Node*> openList; //look into using lists rather than vectors
 	std::vector<Node*> closedList;
 	Node* curNode;
 

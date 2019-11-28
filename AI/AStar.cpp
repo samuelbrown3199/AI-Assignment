@@ -14,7 +14,7 @@ AStar::~AStar()
 {
 }
 
-void AStar::Algorithm() //not working due to memory issue with successors
+void AStar::Algorithm() //not working due to memory issue with successors will need to be debugged quite heavily
 {
 	std::vector<Node*>::iterator nItr;
 	int index = 0, posOfCurNode = 0;
@@ -53,10 +53,15 @@ void AStar::Algorithm() //not working due to memory issue with successors
 				{
 					continue;
 				}
-				float currentG = 0; //equal to the distance to the starting node through any parents the current neighbour follows.
+
 				if (curNode->neighbours[i]->passable)
 				{
-					if (curNode->neighbours[i]->g < currentG)
+					curNode->neighbours[i]->testParent = curNode;
+					curNode->neighbours[i]->CalculateTestG();
+
+					curNode->neighbours[i]->CalculateGValue(maze->startNode);
+
+					if (curNode->neighbours[i]->testG <= curNode->neighbours[i]->g)
 					{
 						if (std::find(openList.begin(), openList.end(), curNode->neighbours[i]) != openList.end())
 						{

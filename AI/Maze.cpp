@@ -131,9 +131,10 @@ void Maze::SetupRenderMaze()
 			if (mazeTileArray[y][x].tileType != 1)
 			{
 				nodeArray[y][x].passable = true;
-				nodeArray[y][x].xPos = mazeTileArray[y][x].xPos;
-				nodeArray[y][x].yPos = mazeTileArray[y][x].yPos;
 			}
+
+			nodeArray[y][x].xPos = mazeTileArray[y][x].xPos;
+			nodeArray[y][x].yPos = mazeTileArray[y][x].yPos;
 		}
 	}
 
@@ -192,7 +193,8 @@ void Maze::SetupNodeDistances()
 				if (nodeArray[y][x].nodeType == 2)
 				{
 					startNode = &nodeArray[y][x];
-					nodeArray[y][x].f = 1000000000;
+					nodeArray[y][x].g = 0;
+					nodeArray[y][x].f = 0;
 				}
 				if (nodeArray[y][x].nodeType == 3)
 				{

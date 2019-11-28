@@ -27,7 +27,10 @@ struct Node
 
 	float f, h, g;
 
-	Node* parentNode;//could make this an array with size 4 which makes it easier to handle.
+	float testG;
+	Node* testParent;
+
+	Node* parentNode = nullptr;
 	Node* neighbours[4]{nullptr};
 
 	void SetupSuccessors(Node** nodeArray, int col, int row)
@@ -52,24 +55,48 @@ struct Node
 
 	void CalculateGValue(Node* startNode)
 	{
+		xPos = 0 + (x * 50);
+		yPos = 0 + (y * 50);
+
 		float distance;
 
 		if (parentNode != nullptr)
 		{
+			parentNode->xPos = 0 + (parentNode->x * 50);
+			parentNode->yPos = 0 + (parentNode->y * 50);
+
 			distance = sqrt(((parentNode->xPos - xPos)*(parentNode->xPos - xPos)) + ((parentNode->yPos - yPos)*(parentNode->yPos - yPos)));
+			g = distance + parentNode->g;
+		}
+		else if (this == startNode)
+		{
+			distance = 0;
+			g = distance;
 		}
 		else
 		{
 			distance = sqrt(((startNode->xPos - xPos)*(startNode->xPos - xPos)) + ((startNode->yPos - yPos)*(startNode->yPos - yPos)));
 			parentNode = startNode;
+			g = distance;
 		}
-		g = distance;
 	}
 
 	void CalculateFValue(Node* startNode)
 	{
 		CalculateGValue(startNode);
 		f = h + g;
+	}
+
+	void CalculateTestG()
+	{
+		testParent->xPos = 0 + (testParent->x * 50);
+		testParent->yPos = 0 + (testParent->y * 50);
+
+		xPos = 0 + (x * 50);
+		yPos = 0 + (y * 50);
+
+		float distance = sqrt(((testParent->xPos - xPos)*(testParent->xPos - xPos)) + ((testParent->yPos - yPos)*(testParent->yPos - yPos)));
+		testG = distance + testParent->g;
 	}
 };
 
