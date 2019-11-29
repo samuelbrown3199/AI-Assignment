@@ -60,6 +60,17 @@ void Maze::SetupRenderMaze()
 			MazeTile temp(mazeData[i], x, y);
 			tileData.push_back(temp);
 
+			if (mazeData[i] == 2)
+			{
+				startX = x;
+				startY = y;
+			}
+			else if (mazeData[i] == 3)
+			{
+				endX = x;
+				endY = y;
+			}
+
 			i++;
 		}
 	}
@@ -92,6 +103,25 @@ void Maze::RenderMaze(SDL_Renderer* _renderer)
 
 			SDL_RenderFillRect(_renderer, &tileData[i].tileRect);
 			i++;
+		}
+	}
+}
+
+MazeTile Maze::FindTileAtPos(int _y, int _x)
+{
+	if (_y >= 0 && _y < row)
+	{
+		if (_x >= 0 && _x < col)
+		{
+			for (int i = 0; i < tileData.size(); i++)
+			{
+				if (tileData[i].x == _x && tileData[i].y == _y)
+				{
+					return tileData[i];
+					break;
+				}
+			}
+
 		}
 	}
 }

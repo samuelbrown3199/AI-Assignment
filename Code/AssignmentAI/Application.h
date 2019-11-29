@@ -7,6 +7,7 @@
 
 #include "Maze.h"
 #include "AStar.h"
+#include "Genetic.h"
 
 class Application
 {
@@ -19,6 +20,7 @@ private:
 
 	Maze* currentMaze;
 	AStar* aStar;
+	Genetic* gene;
 
 public:
 	Application();

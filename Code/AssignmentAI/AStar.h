@@ -81,7 +81,7 @@ struct Node
 		neighbours[4] = ai->FindNodeAtPos(x + 1, y + 1);
 		neighbours[5] = ai->FindNodeAtPos(x, y + 1);
 		neighbours[6] = ai->FindNodeAtPos(x - 1, y + 1);
-		neighbours[6] = ai->FindNodeAtPos(x - 1, y);
+		neighbours[7] = ai->FindNodeAtPos(x - 1, y);
 	}
 
 	void CalculateFValue()

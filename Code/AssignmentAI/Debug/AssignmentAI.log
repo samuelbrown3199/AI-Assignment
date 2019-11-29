@@ -1,1 +1,3 @@
-﻿  AssignmentAI.vcxproj -> C:\Users\samue\Desktop\Games Development\Projects\AI-Assignment\Code\Debug\AssignmentAI.exe
+﻿  Genetic.cpp
+c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(32): warning C4018: '<': signed/unsigned mismatch
+  AssignmentAI.vcxproj -> C:\Users\samue\Desktop\Games Development\Projects\AI-Assignment\Code\Debug\AssignmentAI.exe

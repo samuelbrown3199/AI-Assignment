@@ -38,6 +38,7 @@ public:
 
 	int col, row;
 	std::vector<MazeTile> tileData;
+	int startX, startY, endX, endY;
 
 	Maze(std::string fileName);
 	~Maze();
@@ -45,6 +46,8 @@ public:
 	void LoadData(std::string fileName);
 	void SetupRenderMaze();
 	void RenderMaze(SDL_Renderer* _renderer);
+
+	MazeTile FindTileAtPos(int _y, int _x);
 };
 
 #endif

@@ -70,8 +70,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\SDKs\SDL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDKs\SDL\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\SDKs\SDL2-2.0.10\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\SDKs\SDL2-2.0.10\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -124,6 +124,7 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="AStar.cpp" />
+    <ClCompile Include="Genetic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Maze.cpp" />
     <ClCompile Include="Network.cpp" />
@@ -132,6 +133,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="AStar.h" />
+    <ClInclude Include="Genetic.h" />
     <ClInclude Include="Maze.h" />
     <ClInclude Include="Network.h" />
     <ClInclude Include="Neuron.h" />

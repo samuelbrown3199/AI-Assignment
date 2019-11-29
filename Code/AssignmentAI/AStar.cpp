@@ -60,24 +60,21 @@ void AStar::Algorithm() //some form of memory issue
 
 	while (!pathFound)
 	{
-		indexOfCurNode = 0;
 		currentNode = nullptr;
-
-		for (int i = 0; i < openList.size(); i++)
+		std::vector<Node*>::iterator nItr;
+		for (nItr = openList.begin(); nItr != openList.end(); nItr++)
 		{
 			if (currentNode == nullptr)
 			{
-				currentNode = openList[i];
-				indexOfCurNode = i;
+				currentNode = *nItr;
 			}
-			else if (currentNode->f < openList[i]->f)
+			else if (currentNode->f < (*nItr)->f)
 			{
-				currentNode = openList[i];
-				indexOfCurNode = i;
+				currentNode = *nItr;
 			}
 		}
 
-		openList.erase(openList.begin() + indexOfCurNode);
+		openList.erase(std::remove(openList.begin(), openList.end(), currentNode), openList.end());
 		closedList.push_back(currentNode);
 
 		if (currentNode == endNode)
@@ -88,11 +85,14 @@ void AStar::Algorithm() //some form of memory issue
 		}
 
 		currentNode->SetupNeighbours();
+
 		for (int i = 0; i < 8; i++)
 		{
 			if (currentNode->neighbours[i] != nullptr)
 			{
-				if (currentNode->neighbours[i]->type == 1 || std::count(closedList.begin(), closedList.end(), currentNode->neighbours[i]))
+				std::vector<Node*>::iterator searchItr;
+				searchItr = std::find(closedList.begin(), closedList.end(), currentNode->neighbours[i]);
+				if (currentNode->neighbours[i]->type == 1 || searchItr != openList.end())
 				{
 					continue;
 				}
@@ -102,7 +102,8 @@ void AStar::Algorithm() //some form of memory issue
 					currentNode->neighbours[i]->ChangeParentNode(currentNode);
 					currentNode->neighbours[i]->CalculateFValue();
 
-					if (!std::count(openList.begin(), openList.end(), currentNode->neighbours[i]))
+					searchItr = std::find(openList.begin(), openList.end(), currentNode->neighbours[i]);
+					if (searchItr == openList.end())
 					{
 						openList.push_back(currentNode->neighbours[i]);
 					}
@@ -113,12 +114,12 @@ void AStar::Algorithm() //some form of memory issue
 					float oldF = currentNode->neighbours[i]->f;
 
 					currentNode->neighbours[i]->ChangeParentNode(currentNode);
+					currentNode->neighbours[i]->CalculateFValue();
 
 					if (oldF > currentNode->neighbours[i]->f)
 					{
-						currentNode->neighbours[i]->CalculateFValue();
-
-						if (!std::count(openList.begin(), openList.end(), currentNode->neighbours[i]))
+						searchItr = std::find(openList.begin(), openList.end(), currentNode->neighbours[i]);
+						if (searchItr == openList.end())
 						{
 							openList.push_back(currentNode->neighbours[i]);
 						}
@@ -128,7 +129,8 @@ void AStar::Algorithm() //some form of memory issue
 						currentNode->neighbours[i]->ChangeParentNode(oldParent);
 						currentNode->neighbours[i]->CalculateFValue();
 
-						if (!std::count(openList.begin(), openList.end(), currentNode->neighbours[i]))
+						searchItr = std::find(openList.begin(), openList.end(), currentNode->neighbours[i]);
+						if (searchItr == openList.end())
 						{
 							openList.push_back(currentNode->neighbours[i]);
 						}
