@@ -39,7 +39,7 @@ void Genetic::GenerateInitialChromosomes()
 		std::cout << std::endl;
 	}
 
-	RunChromosomeLoop();
+	//RunChromosomeLoop();
 }
 
 void Genetic::RunChromosomeLoop()
@@ -48,7 +48,7 @@ void Genetic::RunChromosomeLoop()
 	for (cItr = chromosomes.begin(); cItr != chromosomes.end(); cItr++)
 	{
 		//calculate the path that the chromosome is going to follow
-		(*cItr)->CalculatePath(currentMaze);
+		(*cItr)->NextMove(currentMaze);
 		FitnessFunction(*cItr);
 	}
 
@@ -197,5 +197,51 @@ void Genetic::MutateOffspring()
 	for (int i = 0; i < 8; i++)
 	{
 		chromosomes.push_back(offspring[i]);
+	}
+
+	currentChromo = 0;
+	generation++;
+	std::cout << "Starting generation: " << generation << std::endl;
+}
+
+void Genetic::GeneticLoop(SDL_Renderer* _renderer)
+{
+	/*if (chromosomes.size() > 0)
+	{
+		std::vector<Chromosome*>::iterator cItr;
+		for (cItr = chromosomes.begin(); cItr != chromosomes.end(); cItr++)
+		{
+			if (!(*cItr)->pathFinished)
+			{
+				(*cItr)->NextMove(currentMaze);
+			}
+			else
+			{
+				FitnessFunction((*cItr));
+				if (cItr == chromosomes.end())
+				{
+					SetupRouletteWheel(); //doesnt call this function so no evolution happens
+				}
+			}
+		}
+	}*/
+	if (currentChromo < numOfChromosomes)
+	{
+		if (chromosomes[currentChromo] != nullptr)
+		{
+			if (!chromosomes[currentChromo]->pathFinished)
+			{
+				chromosomes[currentChromo]->NextMove(currentMaze);
+			}
+			else
+			{
+				FitnessFunction((chromosomes[currentChromo]));
+				currentChromo++;
+			}
+		}
+	}
+	else
+	{
+		SetupRouletteWheel();
 	}
 }

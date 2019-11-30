@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <SDL.h>
+#include <ctime>
 
 #include "Maze.h"
 #include "AStar.h"

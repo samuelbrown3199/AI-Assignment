@@ -5,12 +5,12 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <SDL.h>
 
 #include "Maze.h"
 
 struct Chromosome
 {
-	//int chromoNum;
 	std::vector<int> genes;
 	float fitness;
 	float portionOfWheel;
@@ -20,9 +20,18 @@ struct Chromosome
 	int endX, endY;
 	int cPosX, cPosY;
 
+	SDL_Rect chrRect;
+	int curGene = 0;
+	bool pathFinished = false;
+	bool setupPathing = false;
+
+	float r,g,b;
+
 	Chromosome()
 	{
-
+		r = rand() % 255;
+		g = rand() % 255;
+		b = rand() % 255;
 	}
 	Chromosome(std::vector<int> parent1, std::vector<int> parent2)
 	{
@@ -40,103 +49,118 @@ struct Chromosome
 		genes = clone->genes;
 	}
 
-	void CalculatePath(Maze* maze)
+	void NextMove(Maze* maze)
 	{
-		startX = maze->startX;
-		startY = maze->startY;
+		if (!setupPathing)
+		{
+			startX = maze->startX;
+			startY = maze->startY;
 
-		cPosX = startX;
-		cPosY = startY;
+			cPosX = startX;
+			cPosY = startY;
 
-		int curGene = 0;
+			setupPathing = true;
+		}
 
-		while (curGene < genes.size())
+		if (!pathFinished)
 		{
 			if (genes[curGene] == 0 && genes[curGene + 1] == 0) //move up
 			{
 				if (cPosY - 1 < 0)
 				{
 					curGene += 2;
-					continue;
 				}
 				else
 				{
-					if (maze->FindTileAtPos(cPosY-1, cPosX).type == 1)
+					if (maze->FindTileAtPos(cPosY - 1, cPosX).type == 1)
 					{
 						curGene += 2;
-						continue;
 					}
 					else
 					{
 						cPosY -= 1;
+						curGene += 2;
 					}
 				}
 			}
-			if (genes[curGene] == 1 && genes[curGene + 1] == 1) //move down
+			else if (genes[curGene] == 1 && genes[curGene + 1] == 1) //move down
 			{
-				if (cPosY + 1 > maze->row)
+				if (cPosY + 1 >= maze->row)
 				{
 					curGene += 2;
-					continue;
 				}
 				else
 				{
 					if (maze->FindTileAtPos(cPosY + 1, cPosX).type == 1)
 					{
 						curGene += 2;
-						continue;
 					}
 					else
 					{
 						cPosY += 1;
+						curGene += 2;
 					}
 				}
 			}
-			if (genes[curGene] == 0 && genes[curGene + 1] == 1) //move right
+			else if (genes[curGene] == 0 && genes[curGene + 1] == 1) //move right
 			{
-				if (cPosX + 1 > maze->col)
+				if (cPosX + 1 >= maze->col)
 				{
 					curGene += 2;
-					continue;
 				}
 				else
 				{
-					if (maze->FindTileAtPos(cPosY, cPosX+1).type == 1)
+					if (maze->FindTileAtPos(cPosY, cPosX + 1).type == 1)
 					{
 						curGene += 2;
-						continue;
 					}
 					else
 					{
 						cPosX += 1;
+						curGene += 2;
 					}
 				}
 			}
-			if (genes[curGene] == 1 && genes[curGene + 1] == 0) //move left
+			else if (genes[curGene] == 1 && genes[curGene + 1] == 0) //move left
 			{
 				if (cPosX - 1 < 0)
 				{
 					curGene += 2;
-					continue;
 				}
 				else
 				{
 					if (maze->FindTileAtPos(cPosY, cPosX - 1).type == 1)
 					{
 						curGene += 2;
-						continue;
 					}
 					else
 					{
 						cPosX -= 1;
+						curGene += 2;
 					}
 				}
 			}
-			curGene +=  2;
 		}
 
-		endX = cPosX;
-		endY = cPosY;
+		if(curGene == genes.size())
+		{
+			endX = cPosX;
+			endY = cPosY;
+
+			pathFinished = true;
+		}
+	}
+
+	void RenderChromosome(SDL_Renderer* _renderer)
+	{
+		chrRect.x = 12 + (50 * cPosX);
+		chrRect.y = 12 + (50 * cPosY);
+		chrRect.w = 25;
+		chrRect.h = 25;
+
+		SDL_SetRenderDrawColor(_renderer, r, g, b, 255);
+		SDL_RenderFillRect(_renderer, &chrRect);
+
 	}
 };
 
@@ -151,14 +175,17 @@ private:
 	float crossoverRate = 0.7;
 	float mutationRate = 0.001;
 
-	std::vector<Chromosome*> chromosomes;
-
 	float totalPercent = 0;
 	Chromosome pairs[4];
 
 	Chromosome* offspring[8];
 
 public:
+
+	int generation = 1;
+	int currentChromo = 0;
+	std::vector<Chromosome*> chromosomes;
+
 	Genetic(Maze* _maze);
 	~Genetic();
 
@@ -168,6 +195,8 @@ public:
 	void SetupRouletteWheel();
 	void MateFunction();
 	void MutateOffspring();
+
+	void GeneticLoop(SDL_Renderer* _renderer);
 };
 
 #endif

@@ -13,6 +13,8 @@ Application::~Application()
 
 int Application::InitialiseApplication(const char* windowName, int posX, int posY, int sizeW, int sizeH, Uint32 flags)
 {
+	srand(time(NULL));
+
 	if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
 	{
 		std::cout << "Failed to initialise SDL: " << SDL_GetError() << std::endl;
@@ -54,10 +56,29 @@ void Application::CleanUp()
 
 void Application::ApplicationLoop()
 {
+	const int FPS = 8; //used in frame limiter
+	const int frameDelay = 1000 / FPS;
+	Uint32 frameStart;
+	int frameTime;
+	int frameCount = 0;
+
 	while (loop)
 	{
+		frameStart = SDL_GetTicks();
+
 		CheckForPlayerGenInput();
 		RenderApplication();
+
+		if (gene != nullptr)
+		{
+			gene->GeneticLoop(renderer);
+		}
+
+		frameTime = SDL_GetTicks() - frameStart; //calculates how long the frame took to process
+		if (frameDelay > frameTime) //if frame was too quick then delay
+		{
+			SDL_Delay(frameDelay - frameTime); //delay so we get a frame limiter to 60 fps
+		}
 	}
 }
 
@@ -94,6 +115,16 @@ void Application::RenderApplication()
 	if (currentMaze != nullptr)
 	{
 		currentMaze->RenderMaze(renderer);
+	}
+	if (gene != nullptr)
+	{
+		if (gene->chromosomes.size() > 0)
+		{
+			if (gene->currentChromo < gene->chromosomes.size())
+			{
+				gene->chromosomes[gene->currentChromo]->RenderChromosome(renderer);
+			}
+		}
 	}
 
 	SDL_SetRenderDrawColor(renderer, 138, 138, 138, 255);
