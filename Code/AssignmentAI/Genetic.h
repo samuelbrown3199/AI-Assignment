@@ -10,14 +10,35 @@
 
 struct Chromosome
 {
-	int chromoNum;
+	//int chromoNum;
 	std::vector<int> genes;
 	float fitness;
 	float portionOfWheel;
+	float rangeStart = 0;
 
 	int startX, startY;
 	int endX, endY;
 	int cPosX, cPosY;
+
+	Chromosome()
+	{
+
+	}
+	Chromosome(std::vector<int> parent1, std::vector<int> parent2)
+	{
+		for (int i = 0; i < parent1.size(); i++)
+		{
+			genes.push_back(parent1[i]);
+		}
+		for (int i = 0; i < parent2.size(); i++)
+		{
+			genes.push_back(parent2[i]);
+		}
+	}
+	Chromosome(Chromosome* clone)
+	{
+		genes = clone->genes;
+	}
 
 	void CalculatePath(Maze* maze)
 	{
@@ -116,8 +137,6 @@ struct Chromosome
 
 		endX = cPosX;
 		endY = cPosY;
-
-		std::cout << "End position for chromosome " << chromoNum << " is X: " << endX << " and Y: " << endY << std::endl;
 	}
 };
 
@@ -129,11 +148,15 @@ private:
 
 	const int numOfChromosomes = 8;
 	int numberOfGenes = 16;
+	float crossoverRate = 0.7;
+	float mutationRate = 0.001;
 
 	std::vector<Chromosome*> chromosomes;
 
-	Chromosome pair1[2];
-	Chromosome pair2[2];
+	float totalPercent = 0;
+	Chromosome pairs[4];
+
+	Chromosome* offspring[8];
 
 public:
 	Genetic(Maze* _maze);
@@ -142,7 +165,9 @@ public:
 	void GenerateInitialChromosomes();
 	void RunChromosomeLoop();
 	void FitnessFunction(Chromosome* _some);
+	void SetupRouletteWheel();
 	void MateFunction();
+	void MutateOffspring();
 };
 
 #endif
