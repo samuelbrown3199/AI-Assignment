@@ -25,7 +25,7 @@ struct Chromosome
 	bool pathFinished = false;
 	bool setupPathing = false;
 
-	float r,g,b;
+	float r, g, b;
 
 	Chromosome()
 	{
@@ -33,20 +33,30 @@ struct Chromosome
 		g = rand() % 255;
 		b = rand() % 255;
 	}
-	Chromosome(std::vector<int> parent1, std::vector<int> parent2)
-	{
-		for (int i = 0; i < parent1.size(); i++)
-		{
-			genes.push_back(parent1[i]);
-		}
-		for (int i = 0; i < parent2.size(); i++)
-		{
-			genes.push_back(parent2[i]);
-		}
-	}
 	Chromosome(Chromosome* clone)
 	{
 		genes = clone->genes;
+		r = clone->r;
+		g = clone->g;
+		b = clone->b;
+	}
+	Chromosome(Chromosome* parent1, Chromosome* parent2)
+	{
+		r = (parent1->r+parent2->r)/2;
+		g = (parent1->g + parent2->g) / 2;
+		b = (parent1->b + parent2->b) / 2;
+
+		std::vector<int>gene1(parent1->genes.begin(), parent1->genes.begin() + 8);
+		std::vector<int>gene2(parent2->genes.begin() + 8, parent2->genes.end());
+
+		for (int i = 0; i < gene1.size(); i++)
+		{
+			genes.push_back(gene1[i]);
+		}
+		for (int i = 0; i < gene2.size(); i++)
+		{
+			genes.push_back(gene2[i]);
+		}
 	}
 
 	void NextMove(Maze* maze)
@@ -142,7 +152,7 @@ struct Chromosome
 			}
 		}
 
-		if(curGene == genes.size())
+		if (curGene == genes.size())
 		{
 			endX = cPosX;
 			endY = cPosY;
@@ -164,21 +174,36 @@ struct Chromosome
 	}
 };
 
+struct Pair
+{
+	Chromosome* chrom1;
+	Chromosome* chrom2;
+
+	Pair(Chromosome* _pair[2])
+	{
+		chrom1 = _pair[0];
+		chrom2 = _pair[1];
+	}
+};
+
 class Genetic
 {
 private:
 
 	Maze* currentMaze;
 
-	const int numOfChromosomes = 8;
+	int numOfChromosomes = 8;
 	int numberOfGenes = 16;
 	float crossoverRate = 0.7;
 	float mutationRate = 0.001;
 
-	float totalPercent = 0;
-	Chromosome pairs[4];
+	int numOfPairs;
+	int numOfOffspring;
 
-	Chromosome* offspring[8];
+	float totalPercent = 0;
+	std::vector<Pair*> pairs;
+
+	std::vector<Chromosome*>offspring;
 
 public:
 
@@ -186,11 +211,10 @@ public:
 	int currentChromo = 0;
 	std::vector<Chromosome*> chromosomes;
 
-	Genetic(Maze* _maze);
+	Genetic(Maze* _maze, int chromNum, int geneNum);
 	~Genetic();
 
 	void GenerateInitialChromosomes();
-	void RunChromosomeLoop();
 	void FitnessFunction(Chromosome* _some);
 	void SetupRouletteWheel();
 	void MateFunction();

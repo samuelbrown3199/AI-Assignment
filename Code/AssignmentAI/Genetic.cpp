@@ -2,9 +2,15 @@
 
 
 
-Genetic::Genetic(Maze* _maze)
+Genetic::Genetic(Maze* _maze, int chromNum, int geneNum)
 {
 	currentMaze = _maze;
+
+	numOfChromosomes = chromNum;
+	numberOfGenes = geneNum;
+	numOfPairs = numOfChromosomes / 4;
+	numOfOffspring = numOfPairs*2;
+
 	GenerateInitialChromosomes();
 }
 
@@ -38,21 +44,6 @@ void Genetic::GenerateInitialChromosomes()
 		}
 		std::cout << std::endl;
 	}
-
-	//RunChromosomeLoop();
-}
-
-void Genetic::RunChromosomeLoop()
-{
-	std::vector<Chromosome*>::iterator cItr;
-	for (cItr = chromosomes.begin(); cItr != chromosomes.end(); cItr++)
-	{
-		//calculate the path that the chromosome is going to follow
-		(*cItr)->NextMove(currentMaze);
-		FitnessFunction(*cItr);
-	}
-
-	SetupRouletteWheel();
 }
 
 void Genetic::FitnessFunction(Chromosome* _some)
@@ -95,74 +86,62 @@ void Genetic::MateFunction()
 	std::uniform_real_distribution<double> dist(0.0f, totalPercent);
 
 	std::vector<Chromosome*>::iterator cItr;
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < numOfPairs; i++)
 	{
-		float r = dist(generator);
+		Chromosome* tempPair[2];
 
-		for (cItr = chromosomes.begin(); cItr != chromosomes.end(); cItr++)
+		for (int o = 0; o < 2; o++)
 		{
-			if (r >= (*cItr)->rangeStart && r < ((*cItr)->portionOfWheel + (*cItr)->rangeStart))
+			float r = dist(generator);
+
+			for (cItr = chromosomes.begin(); cItr != chromosomes.end(); cItr++)
 			{
-				pairs[i] = **cItr;
+				if (r >= (*cItr)->rangeStart && r < ((*cItr)->portionOfWheel + (*cItr)->rangeStart))
+				{
+					tempPair[o] = *cItr;
+				}
 			}
 		}
+
+		pairs.push_back(new Pair(tempPair));
 	}
-
-	std::vector<int>gene1(pairs[0].genes.begin(), pairs[0].genes.begin() + 8);
-	std::vector<int>gene2(pairs[0].genes.begin() + 8, pairs[0].genes.end());
-	
-	std::vector<int>gene3(pairs[1].genes.begin(), pairs[1].genes.begin() + 8);
-	std::vector<int>gene4(pairs[1].genes.begin() + 8, pairs[1].genes.end());
-
-	std::vector<int>gene5(pairs[2].genes.begin(), pairs[2].genes.begin() + 8);
-	std::vector<int>gene6(pairs[2].genes.begin() + 8, pairs[2].genes.end());
-
-	std::vector<int>gene7(pairs[3].genes.begin(), pairs[3].genes.begin() + 8);
-	std::vector<int>gene8(pairs[3].genes.begin() + 8, pairs[3].genes.end());
 
 	std::uniform_real_distribution<double> dist2(0.0f, 1);
 
-	if (offspring[0] != nullptr)
+	for (int curPair = 0; curPair < numOfPairs; curPair++)
 	{
-		for (int i = 0; i < 8; i++)
+		float crossover = dist2(generator);
+
+		if (crossover <= crossoverRate)
 		{
-			delete offspring[i];
+			//perform crossover for new offspring
+			for (int i = 0; i < numOfOffspring; i++)
+			{
+				if (i % 2 == 0)
+				{
+					offspring.push_back(new Chromosome(pairs[curPair]->chrom1, pairs[curPair]->chrom2));
+				}
+				else
+				{
+					offspring.push_back(new Chromosome(pairs[curPair]->chrom2, pairs[curPair]->chrom1));
+				}
+			}
 		}
-	}
-
-	float crossover1 = dist2(generator);
-	float crossover2 = dist2(generator);
-	if (crossover1 <= crossoverRate)
-	{
-		//perform crossover for new offspring
-		offspring[0] = (new Chromosome(gene1, gene4));
-		offspring[1] = (new Chromosome(gene3, gene2));
-		offspring[2] = (new Chromosome(gene1, gene4));
-		offspring[3] = (new Chromosome(gene3, gene2));
-	}
-	else
-	{
-		//copy parents into new offspring
-		offspring[0] = (new Chromosome(&pairs[0]));
-		offspring[1] = (new Chromosome(&pairs[1]));
-		offspring[2] = (new Chromosome(&pairs[0]));
-		offspring[3] = (new Chromosome(&pairs[1]));
-	}
-
-	if (crossover2 <= crossoverRate)
-	{
-		//perform crossover for new offspring
-		offspring[4] = (new Chromosome(gene5, gene8));
-		offspring[5] = (new Chromosome(gene7, gene6));
-		offspring[6] = (new Chromosome(gene5, gene8));
-		offspring[7] = (new Chromosome(gene7, gene6));
-	}
-	else
-	{
-		offspring[4] = (new Chromosome(&pairs[2]));
-		offspring[5] = (new Chromosome(&pairs[3]));
-		offspring[6] = (new Chromosome(&pairs[2]));
-		offspring[7] = (new Chromosome(&pairs[3]));
+		else
+		{
+			//copy parents into new offspring
+			for (int i = 0; i < numOfOffspring; i++)
+			{
+				if (i % 2 == 0)
+				{
+					offspring.push_back(new Chromosome(pairs[curPair]->chrom1));
+				}
+				else
+				{
+					offspring.push_back(new Chromosome(pairs[curPair]->chrom2));
+				}
+			}
+		}
 	}
 
 	MutateOffspring();
@@ -173,9 +152,9 @@ void Genetic::MutateOffspring()
 	std::default_random_engine generator;
 	std::uniform_real_distribution<double> dist(0.0f, 1);
 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < numOfChromosomes; i++)
 	{
-		for (int o = 0; o < 16; o++)
+		for (int o = 0; o < numberOfGenes; o++)
 		{
 			float mutate = dist(generator);
 			if (mutate <= mutationRate)
@@ -192,16 +171,29 @@ void Genetic::MutateOffspring()
 		}
 	}
 
+	pairs.clear();
 	chromosomes.clear();
 
-	for (int i = 0; i < 8; i++)
-	{
-		chromosomes.push_back(offspring[i]);
-	}
-
-	currentChromo = 0;
 	generation++;
 	std::cout << "Starting generation: " << generation << std::endl;
+
+	for (int i = 0; i < numOfChromosomes; i++)
+	{
+		chromosomes.push_back(offspring[i]);
+		offspring[i] = nullptr;
+
+		std::cout << "Chromosome " << i << ": ";
+
+		for (int o = 0; o < numberOfGenes; o++)
+		{
+			double r = dist(generator);
+			std::cout << chromosomes[i]->genes[o];
+		}
+		std::cout << std::endl;
+	}
+	
+	offspring.clear();
+	currentChromo = 0;
 }
 
 void Genetic::GeneticLoop(SDL_Renderer* _renderer)
@@ -218,6 +210,8 @@ void Genetic::GeneticLoop(SDL_Renderer* _renderer)
 			{
 				FitnessFunction((chromosomes[currentChromo]));
 				currentChromo++;
+
+				std::cout << "Currently running chromosome: " << currentChromo << std::endl;
 			}
 		}
 	}

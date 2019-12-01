@@ -4,37 +4,12 @@ c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmenta
 c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(33): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(34): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(38): warning C4018: '<': signed/unsigned mismatch
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(42): warning C4018: '<': signed/unsigned mismatch
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(161): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(175): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(176): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(52): warning C4018: '<': signed/unsigned mismatch
+c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(56): warning C4018: '<': signed/unsigned mismatch
+c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(171): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
+c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(197): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(198): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\application.cpp(16): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\application.cpp(123): warning C4018: '<': signed/unsigned mismatch
-  Genetic.cpp
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(33): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(34): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(38): warning C4018: '<': signed/unsigned mismatch
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(42): warning C4018: '<': signed/unsigned mismatch
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(161): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(175): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(176): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.cpp(100): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.cpp(133): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.cpp(134): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.cpp(180): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  main.cpp
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\astar.h(93): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\astar.h(102): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(33): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(34): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(38): warning C4018: '<': signed/unsigned mismatch
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(42): warning C4018: '<': signed/unsigned mismatch
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(161): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(175): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\genetic.h(176): warning C4305: 'initializing': truncation from 'double' to 'float'
-  Generating Code...
 c:\users\samue\desktop\games development\projects\ai-assignment\code\assignmentai\application.cpp(45): warning C4715: 'Application::InitialiseApplication': not all control paths return a value
   AssignmentAI.vcxproj -> C:\Users\samue\Desktop\Games Development\Projects\AI-Assignment\Code\Debug\AssignmentAI.exe
