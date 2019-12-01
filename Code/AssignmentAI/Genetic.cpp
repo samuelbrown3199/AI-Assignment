@@ -206,25 +206,6 @@ void Genetic::MutateOffspring()
 
 void Genetic::GeneticLoop(SDL_Renderer* _renderer)
 {
-	/*if (chromosomes.size() > 0)
-	{
-		std::vector<Chromosome*>::iterator cItr;
-		for (cItr = chromosomes.begin(); cItr != chromosomes.end(); cItr++)
-		{
-			if (!(*cItr)->pathFinished)
-			{
-				(*cItr)->NextMove(currentMaze);
-			}
-			else
-			{
-				FitnessFunction((*cItr));
-				if (cItr == chromosomes.end())
-				{
-					SetupRouletteWheel(); //doesnt call this function so no evolution happens
-				}
-			}
-		}
-	}*/
 	if (currentChromo < numOfChromosomes)
 	{
 		if (chromosomes[currentChromo] != nullptr)
