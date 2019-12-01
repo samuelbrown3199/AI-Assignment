@@ -186,7 +186,6 @@ void Genetic::MutateOffspring()
 
 		for (int o = 0; o < numberOfGenes; o++)
 		{
-			double r = dist(generator);
 			std::cout << chromosomes[i]->genes[o];
 		}
 		std::cout << std::endl;
