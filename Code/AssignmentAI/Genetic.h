@@ -46,7 +46,7 @@ struct Chromosome
 		g = (parent1->g + parent2->g) / 2;
 		b = (parent1->b + parent2->b) / 2;
 
-		std::vector<int>gene1(parent1->genes.begin(), parent1->genes.begin() + +parent2->genes.size() / 2);
+		std::vector<int>gene1(parent1->genes.begin(), parent1->genes.begin() + parent2->genes.size() / 2);
 		std::vector<int>gene2(parent2->genes.begin() + parent2->genes.size()/2, parent2->genes.end());
 
 		for (int i = 0; i < gene1.size(); i++)
