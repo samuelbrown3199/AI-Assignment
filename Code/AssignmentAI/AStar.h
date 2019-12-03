@@ -47,15 +47,21 @@ struct Node
 	int x, y;
 	float g, h, f;
 	int type;
+	int posInList;
 
 	AStar* ai;
 
-	Node(MazeTile _tile, AStar* _ai)
+	Node()
+	{
+
+	}
+	Node(MazeTile _tile, AStar* _ai, int i)
 	{
 		x = _tile.x;
 		y = _tile.y;
 
 		type = _tile.type;
+		posInList = i;
 
 		ai = _ai;
 
@@ -95,14 +101,12 @@ struct Node
 	}
 	void CalculateGValue()
 	{
-		float distance = 0;
-
-		if (parentNode != nullptr)
+		if (this != ai->startNode)
 		{
-			distance = sqrt(((parentNode->x - x)*(parentNode->x - x)) + ((parentNode->y - y)*(parentNode->y - y)));
-			g = distance + parentNode->g;
+			float distance = sqrt(((ai->startNode->x - x)*(ai->startNode->x - x)) + ((ai->startNode->y - y)*(ai->startNode->y - y)));
+			g = distance;
 		}
-		else if (this == ai->startNode)
+		else
 		{
 			g = 0;
 		}
@@ -111,6 +115,5 @@ struct Node
 	void ChangeParentNode(Node* _newNode)
 	{
 		parentNode = _newNode;
-		CalculateGValue();
 	}
 };

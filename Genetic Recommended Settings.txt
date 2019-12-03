@@ -1,0 +1,8 @@
+Maze Recommended Genetic Settings:
+
+Test Maze A:
+
+8 Chromosomes
+16 genes
+0.7 crossover rate
+0.01 mutation chance

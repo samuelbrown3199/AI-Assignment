@@ -35,10 +35,11 @@ struct Chromosome
 	}
 	Chromosome(Chromosome* clone)
 	{
-		genes = clone->genes;
 		r = clone->r;
 		g = clone->g;
 		b = clone->b;
+
+		genes = clone->genes;
 	}
 	Chromosome(Chromosome* parent1, Chromosome* parent2)
 	{
@@ -211,7 +212,7 @@ public:
 	int currentChromo = 0;
 	std::vector<Chromosome*> chromosomes;
 
-	Genetic(Maze* _maze, int chromNum, int geneNum);
+	Genetic(Maze* _maze, int chromNum, int geneNum, float crossOverRate, float muteChance);
 	~Genetic();
 
 	void GenerateInitialChromosomes();

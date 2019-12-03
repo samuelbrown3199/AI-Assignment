@@ -39,7 +39,7 @@ int Application::InitialiseApplication(const char* windowName, int posX, int pos
 
 	currentMaze = new Maze("TestMazeA_ANSI.txt"); //temporary until i add more control for the users
 	//aStar = new AStar(*currentMaze);
-	gene = new Genetic(currentMaze, 8, 16);
+	gene = new Genetic(currentMaze, 8, 16, 0.7, 0.01);
 
 	ApplicationLoop();
 }

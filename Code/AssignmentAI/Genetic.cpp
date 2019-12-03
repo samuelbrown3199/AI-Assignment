@@ -2,14 +2,26 @@
 
 
 
-Genetic::Genetic(Maze* _maze, int chromNum, int geneNum)
+Genetic::Genetic(Maze* _maze, int chromNum, int geneNum, float crossOverRate, float muteChance)
 {
 	currentMaze = _maze;
+
+	while(chromNum % 4 != 0)
+	{
+		chromNum++;
+	}
+	while (geneNum % 2 != 0)
+	{
+		geneNum++;
+	}
 
 	numOfChromosomes = chromNum;
 	numberOfGenes = geneNum;
 	numOfPairs = numOfChromosomes / 4;
-	numOfOffspring = numOfPairs*2;
+	numOfOffspring = numOfChromosomes;
+
+	crossoverRate = crossOverRate;
+	mutationRate = muteChance;
 
 	GenerateInitialChromosomes();
 }
@@ -46,7 +58,7 @@ void Genetic::GenerateInitialChromosomes()
 	}
 }
 
-void Genetic::FitnessFunction(Chromosome* _some)
+void Genetic::FitnessFunction(Chromosome* _some) //needs a change to punish for being near a wall
 {
 	float tempFit = (float)1 / ((currentMaze->endX - _some->endX) + (currentMaze->endY - _some->endY) + 1);
 	_some->fitness = tempFit;

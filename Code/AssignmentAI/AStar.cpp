@@ -17,13 +17,14 @@ void AStar::SetupNodes()
 	int i = 0;
 	for (; i < currentMaze->tileData.size(); i++)
 	{
-		Node* tempNode = new Node(currentMaze->tileData[i], this);
+		Node* tempNode = new Node(currentMaze->tileData[i], this, i);
 		nodeList.push_back(*tempNode);
 	}
 
 	for (i = 0; i < nodeList.size(); i++)
 	{
 		nodeList[i].CalculateHValue();
+		nodeList[i].CalculateGValue();
 	}
 
 	std::cout << "Setup " << i << " nodes." << std::endl;
@@ -51,7 +52,7 @@ Node* AStar::FindNodeAtPos(int x, int y)
 	}
 }
 
-void AStar::Algorithm() //some form of memory issue
+void AStar::Algorithm()
 {
 	openList.push_back(startNode);
 	Node* currentNode;
@@ -62,19 +63,27 @@ void AStar::Algorithm() //some form of memory issue
 	{
 		currentNode = nullptr;
 		std::vector<Node*>::iterator nItr;
+		int i = 0;
+
 		for (nItr = openList.begin(); nItr != openList.end(); nItr++)
 		{
-			if (currentNode == nullptr)
+			if (*nItr != nullptr)
 			{
-				currentNode = *nItr;
+				if (currentNode == nullptr)
+				{
+					currentNode = *nItr;
+					indexOfCurNode = i;
+				}
+				else if (currentNode->f < (*nItr)->f)
+				{
+					currentNode = *nItr;
+					indexOfCurNode = i;
+				}
 			}
-			else if (currentNode->f < (*nItr)->f)
-			{
-				currentNode = *nItr;
-			}
+			i++;
 		}
 
-		openList.erase(std::remove(openList.begin(), openList.end(), currentNode), openList.end());
+		openList[i-1] = nullptr;
 		closedList.push_back(currentNode);
 
 		if (currentNode == endNode)
@@ -92,7 +101,7 @@ void AStar::Algorithm() //some form of memory issue
 			{
 				std::vector<Node*>::iterator searchItr;
 				searchItr = std::find(closedList.begin(), closedList.end(), currentNode->neighbours[i]);
-				if (currentNode->neighbours[i]->type == 1 || searchItr != openList.end())
+				if (currentNode->neighbours[i]->type == 1 || searchItr != closedList.end())
 				{
 					continue;
 				}
@@ -108,7 +117,7 @@ void AStar::Algorithm() //some form of memory issue
 						openList.push_back(currentNode->neighbours[i]);
 					}
 				}
-				else
+				/*else
 				{
 					Node* oldParent = currentNode->neighbours[i]->parentNode;
 					float oldF = currentNode->neighbours[i]->f;
@@ -135,7 +144,7 @@ void AStar::Algorithm() //some form of memory issue
 							openList.push_back(currentNode->neighbours[i]);
 						}
 					}
-				}
+				}*/
 			}
 		}
 	}
