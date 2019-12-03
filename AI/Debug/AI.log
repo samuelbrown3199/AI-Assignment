@@ -1,5 +1,0 @@
-﻿  AStar.cpp
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\maze.h(68): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\maze.h(78): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\samue\desktop\games development\projects\ai-assignment\ai\maze.h(98): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  AI.vcxproj -> C:\Users\samue\Desktop\Games Development\Projects\AI-Assignment\AI\Debug\AI.exe
