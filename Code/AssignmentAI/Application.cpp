@@ -38,8 +38,8 @@ int Application::InitialiseApplication(const char* windowName, int posX, int pos
 	SDL_RenderSetLogicalSize(renderer, sizeW, sizeH);
 
 	currentMaze = new Maze("TestMazeA_ANSI.txt"); //temporary until i add more control for the users
-	//aStar = new AStar(*currentMaze);
-	gene = new Genetic(currentMaze, 8, 16, 0.7, 0.01);
+	aStar = new AStar(*currentMaze);
+	//gene = new Genetic(currentMaze, 24, 20, 0.7, 0.01);
 
 	ApplicationLoop();
 }
@@ -102,6 +102,16 @@ void Application::CheckForPlayerGenInput()
 		case SDL_QUIT:
 			loop = false;
 			break;
+
+		case SDL_KEYDOWN:
+			switch (event.key.keysym.sym)
+			{
+			case SDLK_f:
+				if (gene != nullptr)
+				{
+				}
+			}
+
 		default:
 			break;
 		}

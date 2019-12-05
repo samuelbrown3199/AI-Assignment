@@ -25,9 +25,6 @@ public:
 	Node* startNode;
 	Node* endNode;
 
-	std::vector<Node*> openList;
-	std::vector<Node*> closedList;
-
 	AStar(Maze _currentMaze);
 	~AStar();
 
@@ -35,6 +32,7 @@ public:
 	Node* FindNodeAtPos(int x, int y);
 
 	void Algorithm();
+	bool CheckListForNode(std::vector<Node*>* _list, Node* _element);
 };
 
 #endif
@@ -47,7 +45,6 @@ struct Node
 	int x, y;
 	float g, h, f;
 	int type;
-	int posInList;
 
 	AStar* ai;
 
@@ -61,7 +58,6 @@ struct Node
 		y = _tile.y;
 
 		type = _tile.type;
-		posInList = i;
 
 		ai = _ai;
 
@@ -88,6 +84,14 @@ struct Node
 		neighbours[5] = ai->FindNodeAtPos(x, y + 1);
 		neighbours[6] = ai->FindNodeAtPos(x - 1, y + 1);
 		neighbours[7] = ai->FindNodeAtPos(x - 1, y);
+
+		for (int i = 0; i < 8; i++)
+		{
+			if (neighbours[i] != nullptr)
+			{
+				neighbours[i]->ChangeParentNode(this);
+			}
+		}
 	}
 
 	void CalculateFValue()

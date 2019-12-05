@@ -6,3 +6,10 @@ Test Maze A:
 16 genes
 0.7 crossover rate
 0.01 mutation chance
+
+Test Maze B: currently incorrect fitness function really in need of improvement
+
+8 Chromosomes
+20 genes
+0.7 crossover rate
+0.01 mutation chance
