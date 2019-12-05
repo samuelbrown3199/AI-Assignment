@@ -1,10 +1,13 @@
 #include "AStar.h"
 
-AStar::AStar(Maze _currentMaze)
-{
-	currentMaze = &_currentMaze;
 
-	SetupNodes();
+
+AStar::AStar(Maze* _maze)
+{
+	currentMaze = _maze;
+	nodeAmount = currentMaze->tileData.size();
+
+	SetupNodeList();
 	Algorithm();
 }
 
@@ -12,97 +15,70 @@ AStar::~AStar()
 {
 }
 
-void AStar::SetupNodes()
+void AStar::SetupNodeList()
 {
-	for (int i = 0; i < currentMaze->tileData.size(); i++)
+	for (int i = 0; i < nodeAmount; i++)
 	{
-		Node* tempNode = new Node(currentMaze->tileData[i], this, i);
-		nodeList.push_back(*tempNode);
-	}
+		Node* temp = new Node(currentMaze->tileData[i].x, currentMaze->tileData[i].y, currentMaze->tileData[i].type, i, this);
+		nodeList.push_back(temp);
 
-	for (int i = 0; i < nodeList.size(); i++)
-	{
-		nodeList[i].CalculateHValue();
-		nodeList[i].CalculateGValue();
-
-		if (nodeList[i].type == 2)
+		if (temp->type == 2)
 		{
-			startNode = &nodeList[i];
+			startNode = temp;
 		}
-		else if (nodeList[i].type == 3)
+		else if (temp->type == 3)
 		{
-			endNode = &nodeList[i];
+			endNode = temp;
 		}
 	}
 }
 
-Node* AStar::FindNodeAtPos(int x, int y)
+Node* AStar::FindNode(int _x, int _y)
 {
-	if (x >= 0 && x <= currentMaze->col)
+	for (int i = 0; i < nodeAmount; i++)
 	{
-		if (y >= 0 && y <= currentMaze->row)
+		if (nodeList[i]->x == _x && nodeList[i]->y == _y)
 		{
-			for (int i = 0; i < nodeList.size(); i++)
-			{
-				if (nodeList[i].x == x && nodeList[i].y == y)
-				{
-					return &nodeList[i];
-				}
-			}
+			return nodeList[i];
 		}
 	}
-	else
-	{
-		return nullptr;
-	}
+
+	return nullptr;
 }
 
 void AStar::Algorithm()
 {
-	std::vector<Node*> openList;
-	std::vector<Node*> closedList;
+	Node** openList = new Node*[nodeAmount]; //not allocating properly
+	Node** closedList = new Node*[nodeAmount];
 
-	openList.reserve(nodeList.size());
-	closedList.reserve(nodeList.size());
-
-	openList.push_back(startNode);
-	Node* currentNode = startNode;
-
-	int indexOfCurNode = 0;
+	Node* currentNode;
+	openList[startNode->posInList] = startNode;
 
 	while (!pathFound)
 	{
 		currentNode = nullptr;
-		std::vector<Node*>::iterator nItr;
-		int i = 0;
 
-		for (nItr = openList.begin(); nItr != openList.end(); nItr++)
+		for (int i = 0; i < nodeAmount; i++)
 		{
-			if (*nItr != nullptr)
+			if (currentNode != nullptr)
 			{
-				if (currentNode == nullptr)
+				if (openList[i] != nullptr)
 				{
-					currentNode = *nItr;
-					indexOfCurNode = i;
+					currentNode = openList[i];
 				}
-				else if (currentNode->f < (*nItr)->f)
+				else if (currentNode->f <= openList[i]->f)
 				{
-					currentNode = *nItr;
-					indexOfCurNode = i;
+					currentNode = openList[i];
 				}
 			}
-			i++;
 		}
-		closedList.push_back(currentNode);
-		std::cout << "Pushed back the current node into the closed list, size of closed list is now: " << closedList.size() << std::endl;
+		openList[currentNode->posInList] = nullptr;
+		closedList[currentNode->posInList] = currentNode;
 
-		openList[indexOfCurNode] = nullptr;
-		openList.erase(openList.begin() + indexOfCurNode);
-
-		if (currentNode == endNode)
+		if (currentNode->type == 3)
 		{
+			std::cout << "Found the end of the path, breaking loop." << std::endl;
 			pathFound = true;
-			std::cout << "Path is found." << std::endl;
 			break;
 		}
 		else
@@ -112,47 +88,25 @@ void AStar::Algorithm()
 			{
 				if (currentNode->neighbours[i] != nullptr)
 				{
-					if (CheckListForNode(&openList, currentNode->neighbours[i]))
+					if (openList[currentNode->neighbours[i]->posInList] != nullptr)
 					{
-						std::cout << "Neighbour was in the open list, continuing." << std::endl;
 						continue;
 					}
 					else
 					{
-						std::cout << "About to check for the current neighbour in the closed list, the size of the list is currently: " << closedList.size() << std::endl;
-						if (CheckListForNode(&closedList, currentNode->neighbours[i])) //size of closed list goes up really high for unknown reason, might consider using lists from now on.
+						if (closedList[currentNode->neighbours[i]->posInList] != nullptr)
 						{
-							std::cout << "Neighbour was in the closed list, continuing." << std::endl;
 							continue;
 						}
 						else
 						{
-							if (currentNode->neighbours[i]->type != 1)
-							{
-								currentNode->neighbours[i]->CalculateFValue();
-								openList.push_back(currentNode->neighbours[i]);
-							} 
+							currentNode->neighbours[i]->ChangeParent(currentNode);
+							currentNode->neighbours[i]->CalculateCost();
+							openList[currentNode->neighbours[i]->posInList] = currentNode->neighbours[i];
 						}
 					}
 				}
 			}
 		}
 	}
-}
-
-bool AStar::CheckListForNode(std::vector<Node*>* _list, Node* _element)
-{
-
-	std::cout << "Open list size: " << (*_list).size() << std::endl;
-
-	std::vector<Node*>::iterator nItr;
-	for (nItr = (*_list).begin(); nItr != (*_list).end(); nItr++)
-	{
-		if (*nItr == _element)
-		{
-			return true;
-			break;
-		}
-	}
-	return false;
 }

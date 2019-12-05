@@ -38,7 +38,7 @@ int Application::InitialiseApplication(const char* windowName, int posX, int pos
 	SDL_RenderSetLogicalSize(renderer, sizeW, sizeH);
 
 	currentMaze = new Maze("TestMazeA_ANSI.txt"); //temporary until i add more control for the users
-	aStar = new AStar(*currentMaze);
+	aStar = new AStar(currentMaze);
 	//gene = new Genetic(currentMaze, 24, 20, 0.7, 0.01);
 
 	ApplicationLoop();

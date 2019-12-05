@@ -129,6 +129,7 @@
     <ClCompile Include="Maze.cpp" />
     <ClCompile Include="Network.cpp" />
     <ClCompile Include="Neuron.cpp" />
+    <ClCompile Include="Node.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -137,6 +138,7 @@
     <ClInclude Include="Maze.h" />
     <ClInclude Include="Network.h" />
     <ClInclude Include="Neuron.h" />
+    <ClInclude Include="Node.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
