@@ -37,7 +37,7 @@ int Application::InitialiseApplication(const char* windowName, int posX, int pos
 
 	SDL_RenderSetLogicalSize(renderer, sizeW, sizeH);
 
-	currentMaze = new Maze("TestMazeA_ANSI.txt"); //temporary until i add more control for the users
+	currentMaze = new Maze("TestMazeB_ANSI.txt"); //temporary until i add more control for the users
 	aStar = new AStar(currentMaze);
 	//gene = new Genetic(currentMaze, 24, 20, 0.7, 0.01);
 
@@ -135,6 +135,10 @@ void Application::RenderApplication()
 				gene->chromosomes[gene->currentChromo]->RenderChromosome(renderer);
 			}
 		}
+	}
+	if (aStar != nullptr)
+	{
+		aStar->RenderPath(renderer);
 	}
 
 	SDL_SetRenderDrawColor(renderer, 138, 138, 138, 255);

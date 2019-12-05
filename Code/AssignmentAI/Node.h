@@ -3,6 +3,7 @@
 #define NODE_H_
 
 #include <math.h>
+#include <SDL.h>
 
 #include "AStar.h"
 
@@ -23,7 +24,10 @@ public:
 
 	Node* parent;
 	Node* neighbours[8];
+	
+	SDL_Rect nodeRect;
 
+	Node();
 	Node(int _x, int _y, int _type, int i, AStar* _ai);
 	~Node();
 

@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include <SDL.h>
 
 #include "Maze.h"
 #include "Node.h"
@@ -32,6 +33,7 @@ public:
 	Node* FindNode(int _x, int _y);
 
 	void Algorithm();
+	void RenderPath(SDL_Renderer* _renderer);
 };
 
 #endif

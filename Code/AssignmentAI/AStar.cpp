@@ -48,8 +48,14 @@ Node* AStar::FindNode(int _x, int _y)
 
 void AStar::Algorithm()
 {
-	Node** openList = new Node*[nodeAmount]; //not allocating properly
-	Node** closedList = new Node*[nodeAmount];
+	std::vector<Node*> openList;
+	std::vector<Node*> closedList;
+
+	for (int i = 0; i < nodeAmount; i++)
+	{
+		openList.push_back(nullptr);
+		closedList.push_back(nullptr);
+	}
 
 	Node* currentNode;
 	openList[startNode->posInList] = startNode;
@@ -60,18 +66,19 @@ void AStar::Algorithm()
 
 		for (int i = 0; i < nodeAmount; i++)
 		{
-			if (currentNode != nullptr)
+			if (openList[i] != nullptr)
 			{
-				if (openList[i] != nullptr)
+				if (currentNode == nullptr)
 				{
 					currentNode = openList[i];
 				}
-				else if (currentNode->f <= openList[i]->f)
+				else if (currentNode->f < openList[i]->f)
 				{
 					currentNode = openList[i];
 				}
 			}
 		}
+
 		openList[currentNode->posInList] = nullptr;
 		closedList[currentNode->posInList] = currentNode;
 
@@ -100,13 +107,31 @@ void AStar::Algorithm()
 						}
 						else
 						{
-							currentNode->neighbours[i]->ChangeParent(currentNode);
-							currentNode->neighbours[i]->CalculateCost();
-							openList[currentNode->neighbours[i]->posInList] = currentNode->neighbours[i];
+							if (currentNode->neighbours[i]->type != 1)
+							{
+								currentNode->neighbours[i]->ChangeParent(currentNode); //fcost needs to be calculated better, as currently the g cost is the distance from the start node to the neighbour node, which isnt particularly great
+								currentNode->neighbours[i]->CalculateCost();
+
+								openList[currentNode->neighbours[i]->posInList] = currentNode->neighbours[i];
+							}
 						}
 					}
 				}
 			}
 		}
+	}
+}
+
+void AStar::RenderPath(SDL_Renderer* _renderer)
+{
+	Node* currentNode;
+	currentNode = endNode;
+
+	while (currentNode->parent != nullptr)
+	{
+		SDL_SetRenderDrawColor(_renderer, 0, 100, 100, 255);
+		SDL_RenderFillRect(_renderer, &currentNode->nodeRect);
+
+		currentNode = currentNode->parent;
 	}
 }

@@ -1,6 +1,10 @@
 #include "Node.h"
 
 
+Node::Node()
+{
+
+}
 
 Node::Node(int _x, int _y, int _type, int i, AStar* _ai)
 {
@@ -10,6 +14,11 @@ Node::Node(int _x, int _y, int _type, int i, AStar* _ai)
 	x = _x;
 	y = _y;
 	type = _type;
+
+	nodeRect.x = 12 + (x * 50);
+	nodeRect.y = 12 + (y * 50);
+	nodeRect.w = 25;
+	nodeRect.h = 25;
 }
 
 
