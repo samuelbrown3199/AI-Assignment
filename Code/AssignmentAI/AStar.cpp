@@ -109,7 +109,7 @@ void AStar::Algorithm()
 						{
 							if (currentNode->neighbours[i]->type != 1)
 							{
-								currentNode->neighbours[i]->ChangeParent(currentNode); //fcost needs to be calculated better, as currently the g cost is the distance from the start node to the neighbour node, which isnt particularly great
+								currentNode->neighbours[i]->ChangeParent(currentNode);
 								currentNode->neighbours[i]->CalculateCost();
 
 								openList[currentNode->neighbours[i]->posInList] = currentNode->neighbours[i];
