@@ -40,14 +40,14 @@ public:
 	std::vector<MazeTile> tileData;
 	int startX, startY, endX, endY;
 
-	Maze(std::string fileName);
+	Maze();
 	~Maze();
 
-	void LoadData(std::string fileName);
+	bool LoadData(std::string fileName);
 	void SetupRenderMaze();
 	void RenderMaze(SDL_Renderer* _renderer);
 
-	MazeTile FindTileAtPos(int _y, int _x);
+	MazeTile FindTileAtPos(int _x, int _y);
 };
 
 #endif

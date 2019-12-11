@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <SDL.h>
+#include <chrono>
 
 #include "Maze.h"
 #include "Node.h"

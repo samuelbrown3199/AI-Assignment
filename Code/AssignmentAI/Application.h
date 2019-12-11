@@ -23,8 +23,10 @@ private:
 	AStar* aStar;
 	Genetic* gene;
 
+	int FPS;
+
 public:
-	Application();
+	Application(int FPSTarget);
 	~Application();
 
 	int InitialiseApplication(const char* windowName, int posX, int posY, int sizeW, int sizeH, Uint32 flags);
@@ -37,6 +39,9 @@ public:
 
 	void CheckForPlayerGenInput();
 	void RenderApplication();
+
+	void DeleteMaze();
+	void CreateMaze();
 };
 
 #endif

@@ -27,13 +27,13 @@ struct Chromosome
 
 	float r, g, b;
 
-	Chromosome()
+	Chromosome() //chromosome default constructor, sets a random colour
 	{
 		r = rand() % 255;
 		g = rand() % 255;
 		b = rand() % 255;
 	}
-	Chromosome(Chromosome* clone)
+	Chromosome(Chromosome* clone) //creates a new chromosome using the pass parameter.
 	{
 		r = clone->r;
 		g = clone->g;
@@ -41,16 +41,16 @@ struct Chromosome
 
 		genes = clone->genes;
 	}
-	Chromosome(Chromosome* parent1, Chromosome* parent2)
+	Chromosome(Chromosome* parent1, Chromosome* parent2) //creates a new chromosome with two parents
 	{
-		r = (parent1->r+parent2->r)/2;
+		r = (parent1->r+parent2->r)/2; //work out the average colour of the parents
 		g = (parent1->g + parent2->g) / 2;
 		b = (parent1->b + parent2->b) / 2;
 
-		std::vector<int>gene1(parent1->genes.begin(), parent1->genes.begin() + parent2->genes.size() / 2);
+		std::vector<int>gene1(parent1->genes.begin(), parent1->genes.begin() + parent2->genes.size() / 2); //split the genes into halves
 		std::vector<int>gene2(parent2->genes.begin() + parent2->genes.size()/2, parent2->genes.end());
 
-		for (int i = 0; i < gene1.size(); i++)
+		for (int i = 0; i < gene1.size(); i++) //push the split genes into the gene list
 		{
 			genes.push_back(gene1[i]);
 		}
@@ -60,9 +60,9 @@ struct Chromosome
 		}
 	}
 
-	void NextMove(Maze* maze)
+	void NextMove(Maze* maze) //works out the next move based on the genes
 	{
-		if (!setupPathing)
+		if (!setupPathing) //sets up the pathing the first loop through
 		{
 			startX = maze->startX;
 			startY = maze->startY;
@@ -73,7 +73,7 @@ struct Chromosome
 			setupPathing = true;
 		}
 
-		if (!pathFinished)
+		if (!pathFinished) //checks if the path has finished
 		{
 			if (genes[curGene] == 0 && genes[curGene + 1] == 0) //move up
 			{
@@ -83,7 +83,7 @@ struct Chromosome
 				}
 				else
 				{
-					if (maze->FindTileAtPos(cPosY - 1, cPosX).type == 1)
+					if (maze->FindTileAtPos(cPosX, cPosY - 1).type == 1) //trying to move into wall, not valid
 					{
 						curGene += 2;
 					}
@@ -102,7 +102,7 @@ struct Chromosome
 				}
 				else
 				{
-					if (maze->FindTileAtPos(cPosY + 1, cPosX).type == 1)
+					if (maze->FindTileAtPos(cPosX, cPosY + 1).type == 1) //trying to move into wall, not valid
 					{
 						curGene += 2;
 					}
@@ -121,7 +121,7 @@ struct Chromosome
 				}
 				else
 				{
-					if (maze->FindTileAtPos(cPosY, cPosX + 1).type == 1)
+					if (maze->FindTileAtPos(cPosX + 1, cPosY).type == 1) //trying to move into wall, not valid
 					{
 						curGene += 2;
 					}
@@ -140,7 +140,7 @@ struct Chromosome
 				}
 				else
 				{
-					if (maze->FindTileAtPos(cPosY, cPosX - 1).type == 1)
+					if (maze->FindTileAtPos(cPosX - 1, cPosY).type == 1) //trying to move into wall, not valid
 					{
 						curGene += 2;
 					}
@@ -153,16 +153,16 @@ struct Chromosome
 			}
 		}
 
-		if (curGene == genes.size())
+		if (curGene == genes.size()) //checks if we are at the end of the gene instructions
 		{
-			endX = cPosX;
+			endX = cPosX; //sets the end position of the chromosome
 			endY = cPosY;
 
-			pathFinished = true;
+			pathFinished = true; //path is finished
 		}
 	}
 
-	void RenderChromosome(SDL_Renderer* _renderer)
+	void RenderChromosome(SDL_Renderer* _renderer) //used to render the chromosome agent to the screen
 	{
 		chrRect.x = 12 + (50 * cPosX);
 		chrRect.y = 12 + (50 * cPosY);
@@ -175,7 +175,7 @@ struct Chromosome
 	}
 };
 
-struct Pair
+struct Pair //used to store parent chromosomes for breeding
 {
 	Chromosome* chrom1;
 	Chromosome* chrom2;
@@ -206,13 +206,15 @@ private:
 
 	std::vector<Chromosome*>offspring;
 
+	int mode = 0;
+
 public:
 
 	int generation = 1;
 	int currentChromo = 0;
 	std::vector<Chromosome*> chromosomes;
 
-	Genetic(Maze* _maze, int chromNum, int geneNum, float crossOverRate, float muteChance);
+	Genetic(Maze* _maze, int chromNum, int geneNum, float crossOverRate, float muteChance, int _mode);
 	~Genetic();
 
 	void GenerateInitialChromosomes();

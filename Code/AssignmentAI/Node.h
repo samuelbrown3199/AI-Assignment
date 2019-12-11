@@ -4,6 +4,8 @@
 
 #include <math.h>
 #include <SDL.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "AStar.h"
 
@@ -34,6 +36,8 @@ public:
 	void SetupNeighbours();
 	void ChangeParent(Node* _newParent);
 	void CalculateCost();
+
+	int GetDistanceBetweenNodes(Node* a);
 };
 
 #endif
