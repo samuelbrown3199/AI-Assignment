@@ -195,6 +195,7 @@ void Application::CreateMaze() //used to create a maze with AI
 				int geneCount = 0;
 				float crossOver = 0;
 				float mutationChance = 0;
+				int mode = 0;
 
 				std::cout << "Please enter a chromosome count that is a multiple of 4: ";
 				std::cin >> chromosomeCount;
@@ -208,7 +209,10 @@ void Application::CreateMaze() //used to create a maze with AI
 				std::cout << "Please enter a mutation rate between 0-1: ";
 				std::cin >> mutationChance;											//allows the user the enter the desired settings fot the genetic algorithm
 
-				gene = new Genetic(currentMaze, chromosomeCount, geneCount, crossOver, mutationChance, 0); //create the genetic algorithm with the settings
+				std::cout << "Please enter a mode, details in readme file for what this means: ";
+				std::cin >> mode;
+
+				gene = new Genetic(currentMaze, chromosomeCount, geneCount, crossOver, mutationChance, mode); //create the genetic algorithm with the settings
 			}
 			else if (aiType == 1)
 			{
