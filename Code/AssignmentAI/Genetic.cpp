@@ -108,9 +108,9 @@ void Genetic::FitnessFunction(Chromosome* _some) //ued to work out the fitness o
 				_some->fitness -= 0.1;
 			}
 		}
-		if (_some->fitness < 0)
+		if (_some->fitness <= 0)
 		{
-			_some->fitness = 0;
+			_some->fitness = 0.01;
 		}
 	}
 }
